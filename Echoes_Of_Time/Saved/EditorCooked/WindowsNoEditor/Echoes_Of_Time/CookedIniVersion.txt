@@ -1818,7 +1818,7 @@ Windows.Editor:EditorLayouts:WidgetBlueprintEditor_Designer_Layout_v4_1:0=(\
 							]\
 						),\
 						(\
-							"SizeCoefficient" 0.62962961196899414,\
+							"SizeCoefficient" 0.59897112846374512,\
 							"Type" "Stack",\
 							"HideTabWell" true,\
 							"ForegroundTab" "SlatePreview",\
@@ -1830,7 +1830,7 @@ Windows.Editor:EditorLayouts:WidgetBlueprintEditor_Designer_Layout_v4_1:0=(\
 							]\
 						),\
 						(\
-							"SizeCoefficient" 0.22037036716938019,\
+							"SizeCoefficient" 0.25102886557579041,\
 							"Type" "Stack",\
 							"HideTabWell" false,\
 							"ForegroundTab" "WidgetDetails",\
@@ -1864,7 +1864,7 @@ Windows.Editor:EditorLayouts:WidgetBlueprintEditor_Designer_Layout_v4_1:0=(\
 							"SizeCoefficient" 0.85000002384185791,\
 							"Type" "Stack",\
 							"HideTabWell" false,\
-							"ForegroundTab" "Sequencer",\
+							"ForegroundTab" "CompilerResults",\
 							"Tabs" [\
 								(\
 									"TabId" "Sequencer",\

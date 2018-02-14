@@ -1674,8 +1674,6 @@ Engine/Content/MobileResources/HUD/VirtualJoystick_Thumb.uasset
 Engine/Content/MobileResources/HUD/VirtualJoystick_Thumb.uexp
 Engine/Content/Tutorial/ContentIntroCurve.uasset
 Engine/Content/Tutorial/ContentIntroCurve.uexp
-Engine/Content/Tutorial/Basics/TutorialAssets/CameraActor_64x.uasset
-Engine/Content/Tutorial/Basics/TutorialAssets/CameraActor_64x.uexp
 Engine/Content/Tutorial/Basics/TutorialAssets/icon_tab_Levels_40x.uasset
 Engine/Content/Tutorial/Basics/TutorialAssets/icon_tab_Levels_40x.uexp
 Engine/Content/Tutorial/BlueprintTutorials/TutorialAssets/BlueprintInterface_64x.uasset
