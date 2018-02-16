@@ -925,6 +925,8 @@ Echoes_Of_Time/Content/FirstPersonBP/UI/MainMenu_HUD.uasset
 Echoes_Of_Time/Content/FirstPersonBP/UI/MainMenu_HUD.uexp
 Echoes_Of_Time/Content/FirstPersonBP/UI/PauseGame_HUD.uasset
 Echoes_Of_Time/Content/FirstPersonBP/UI/PauseGame_HUD.uexp
+Echoes_Of_Time/Content/FirstPersonBP/UI/Settings_HUD.uasset
+Echoes_Of_Time/Content/FirstPersonBP/UI/Settings_HUD.uexp
 Echoes_Of_Time/Content/Models/Cylinder_Brush4_StaticMesh.uasset
 Echoes_Of_Time/Content/Models/Cylinder_Brush4_StaticMesh.uexp
 Echoes_Of_Time/Content/Models/lambert1.uasset
@@ -981,6 +983,12 @@ Echoes_Of_Time/Content/Models/Panthenon_pCylinder41.uasset
 Echoes_Of_Time/Content/Models/Panthenon_pCylinder41.uexp
 Echoes_Of_Time/Content/Models/Pillar.uasset
 Echoes_Of_Time/Content/Models/Pillar.uexp
+Echoes_Of_Time/Content/StarterContent/Audio/Explosion01.uasset
+Echoes_Of_Time/Content/StarterContent/Audio/Explosion01.uexp
+Echoes_Of_Time/Content/StarterContent/Audio/Explosion02.uasset
+Echoes_Of_Time/Content/StarterContent/Audio/Explosion02.uexp
+Echoes_Of_Time/Content/StarterContent/Audio/Explosion_Cue.uasset
+Echoes_Of_Time/Content/StarterContent/Audio/Explosion_Cue.uexp
 Echoes_Of_Time/Content/StarterContent/Materials/M_Brick_Clay_Old.uasset
 Echoes_Of_Time/Content/StarterContent/Materials/M_Brick_Clay_Old.uexp
 Echoes_Of_Time/Content/StarterContent/Materials/M_Water_Ocean.uasset
