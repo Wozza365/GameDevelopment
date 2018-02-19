@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<None Include="..\..\Echoes_Of_Time.uproject" />
+		<Filter Include="Source">
+			<UniqueIdentifier>{8BFF56EC-593A-461E-A475-EF8340757BD5}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\Echoes_Of_Time.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<None Include="..\..\Source\Echoes_Of_TimeEditor.Target.cs">
+			<Filter>Source</Filter>
+		</None >
+		<Filter Include="Config">
+			<UniqueIdentifier>{A58033CD-E027-48CE-8694-E52A6951C1A8}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Config\DefaultEditor.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultEngine.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultGame.ini">
+			<Filter>Config</Filter>
+		</None >
+		<None Include="..\..\Config\DefaultInput.ini">
+			<Filter>Config</Filter>
+		</None >
+		<Filter Include="Source\Echoes_Of_Time">
+			<UniqueIdentifier>{AB3F8E79-CF88-4385-970E-7419D4CE7E97}</UniqueIdentifier>
+		</Filter>
+		<None Include="..\..\Source\Echoes_Of_Time\Echoes_Of_Time.Build.cs">
+			<Filter>Source\Echoes_Of_Time</Filter>
+		</None >
+		<ClCompile Include="..\..\Source\Echoes_Of_Time\Echoes_Of_Time.cpp">
+			<Filter>Source\Echoes_Of_Time</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\Echoes_Of_Time\Echoes_Of_Time.h">
+			<Filter>Source\Echoes_Of_Time</Filter>
+		</ClInclude >
+		<ClCompile Include="..\..\Source\Echoes_Of_Time\MyHUD.cpp">
+			<Filter>Source\Echoes_Of_Time</Filter>
+		</ClCompile >
+		<ClInclude Include="..\..\Source\Echoes_Of_Time\MyHUD.h">
+			<Filter>Source\Echoes_Of_Time</Filter>
+		</ClInclude >
+	</ItemGroup>
+</Project>
