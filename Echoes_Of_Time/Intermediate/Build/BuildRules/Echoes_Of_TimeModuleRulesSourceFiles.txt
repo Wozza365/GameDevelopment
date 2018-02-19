@@ -1,3 +1,0 @@
-E:\Git\GameDevelopment\Echoes_Of_Time\Source\Echoes_Of_Time\Echoes_Of_Time.Build.cs
-E:\Git\GameDevelopment\Echoes_Of_Time\Source\Echoes_Of_Time.Target.cs
-E:\Git\GameDevelopment\Echoes_Of_Time\Source\Echoes_Of_TimeEditor.Target.cs
