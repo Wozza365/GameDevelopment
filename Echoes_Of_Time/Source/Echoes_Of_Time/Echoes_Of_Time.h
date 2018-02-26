@@ -3,4 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FileHelper.h"
+#include "Paths.h"
 
