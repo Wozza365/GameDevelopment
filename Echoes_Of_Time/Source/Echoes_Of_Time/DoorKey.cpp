@@ -21,7 +21,7 @@ ADoorKey::ADoorKey()
 		statue->SetStaticMesh(StatueAsset.Object);
 		statue->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 		statue->SetWorldScale3D(FVector(1.0f));
-		statue->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		statue->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		statue->SetSimulatePhysics(true);
 	}
 }
