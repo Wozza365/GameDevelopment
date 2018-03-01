@@ -23,17 +23,21 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// Functions for closing and opening doors
 	UFUNCTION()
 		void CloseDoor(float dt);
 
 	UFUNCTION()
 		void OpenDoor(float dt);
 
+	// Pointer to door component
 	class UStaticMeshComponent* door;
 
+	// Pointer Box Component
 	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
 		class UBoxComponent* boxComp;
-
+	
+	// Overlap Events
 	UFUNCTION()
 		void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 			AActor* OtherActor,
@@ -50,14 +54,13 @@ public:
 			bool bFromSweep,
 			const FHitResult &SweepResult);
 
+	// Variables
 	bool Opening;
 	bool Closing;
 	bool isClosed;
 	class ADoorKeySwing* debug;
 
-	float dotP;
-	float maxDegree;
-	float addRotation;
-	float posNeg;
-	float doorCurrentRotation;
+	float maxDegree;			// Max Degree that doors can rotate
+	float addRotation;						
+	float doorCurrentRotation;	
 };

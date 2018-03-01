@@ -35,9 +35,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Door Logic")
 		void OnOverlapEnd(ADoorSwing* other);
 
+	// Action Key Pressed Event
 	UFUNCTION(BlueprintCallable, Category = "Door Logic")
 		void OnAction(UCameraComponent* camComp);
 
+	// Just for testing 
 	UFUNCTION(BlueprintCallable, Category = "Door Logic")
 		ADoorSwing* GetCurrentDoor();
 

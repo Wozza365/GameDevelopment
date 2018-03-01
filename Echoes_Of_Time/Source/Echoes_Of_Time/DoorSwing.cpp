@@ -14,6 +14,7 @@ ADoorSwing::ADoorSwing()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Create Triger Box
 	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Comp"));
 	boxComp->InitBoxExtent(FVector(150, 100, 100));
 	boxComp->SetCollisionProfileName("Trigger");
@@ -22,12 +23,13 @@ ADoorSwing::ADoorSwing()
 	door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));
 	door->SetupAttachment(RootComponent);
 
+	// Parse asset
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorAsset(TEXT("/Game/StarterContent/Props/SM_Door.SM_Door"));
 
 	if (DoorAsset.Succeeded())
 	{
 		door->SetStaticMesh(DoorAsset.Object);
-		door->SetRelativeLocation(FVector(0.0f, 50.0f, -100.0f));
+		door->SetRelativeLocation(FVector(0.0f, 50.0f, -100.0f)); // set relative location to trigger box
 		door->SetWorldScale3D(FVector(1.0f));
 	}
 

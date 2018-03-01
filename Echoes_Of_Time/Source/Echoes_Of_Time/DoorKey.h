@@ -23,9 +23,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// Pointer to asset
 	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* statue;
 	
+	// On Overlap Event
 	UFUNCTION(BlueprintCallable, Category = "Door Key Logic")
 		void OnOverlapWithDoors(ADoorSwing* doorActor);
 };
