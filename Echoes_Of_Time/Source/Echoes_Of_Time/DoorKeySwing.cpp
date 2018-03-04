@@ -152,7 +152,11 @@ void ADoorKeySwing::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent,
 	bool bFromSweep,
 	const FHitResult &SweepResult)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Door Key Swing End Overlap Triggered"));
+	// Check if it is not a null pointer
+	if (OtherActor && (OtherActor != this))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Door Key Swing End Overlap Triggered"));
+	}
 	//if (!isClosed)
 	//{
 	//	Opening = false;
