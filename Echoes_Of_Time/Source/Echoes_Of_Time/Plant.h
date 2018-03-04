@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "DoorKey.generated.h"
+#include "Plant.generated.h"
 
 UCLASS()
-class ECHOES_OF_TIME_API ADoorKey : public AActor
+class ECHOES_OF_TIME_API APlant : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ADoorKey();
+	APlant();
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,9 +25,6 @@ public:
 
 	// Pointer to asset
 	UPROPERTY(EditAnywhere)
-		class UStaticMeshComponent* statue;
+		class UStaticMeshComponent* plant;
 	
-	// On Overlap Event
-	UFUNCTION(BlueprintCallable, Category = "Door Key Logic")
-		void OnOverlapWithDoors(ADoorSwing* doorActor);
 };

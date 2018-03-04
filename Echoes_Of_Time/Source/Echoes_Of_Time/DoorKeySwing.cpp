@@ -15,6 +15,7 @@ ADoorKeySwing::ADoorKeySwing()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Create Triger Box
 	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Comp"));
 	boxComp->InitBoxExtent(FVector(150, 100, 100));
 	boxComp->SetCollisionProfileName("Trigger");
@@ -22,30 +23,31 @@ ADoorKeySwing::ADoorKeySwing()
 	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	RootComponent = boxComp;
 
+	// Add overlap events functions 
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapBegin);
-	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);
+	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);  // Bug? 2x Begin?
 
+	// Add door asset as Box component and set it as root component
 	door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));
 	door->SetupAttachment(RootComponent);
 
+	// Parse asset
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorAsset(TEXT("/Game/StarterContent/Props/SM_Door.SM_Door"));
 
 	if (DoorAsset.Succeeded())
 	{
 		door->SetStaticMesh(DoorAsset.Object);
-		door->SetRelativeLocation(FVector(0.0f, 50.0f, -100.0f));
+		door->SetRelativeLocation(FVector(0.0f, 50.0f, -100.0f)); // set relative location to trigger box
 		door->SetWorldScale3D(FVector(1.0f));
 	}
 
-	// Set bools
+	// Set varaibles
 
 	isClosed = true;
 	Opening = false;
 	Closing = true;
 
-	dotP = 1.0f;
 	maxDegree = 90.0f;
-	posNeg = 1.0f;
 	doorCurrentRotation = 0.0f;
 }
 
@@ -54,6 +56,7 @@ void ADoorKeySwing::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Draw trigger box for testing
 	DrawDebugBox(GetWorld(), GetActorLocation(), boxComp->GetScaledBoxExtent(), FQuat(GetActorRotation()), FColor::Red, true, -1.0f, 0, 2);
 }
 
@@ -80,8 +83,8 @@ void ADoorKeySwing::OpenDoor(float dt)
 	//Get Current Z rotation
 	doorCurrentRotation = door->RelativeRotation.Yaw;
 
-	addRotation = posNeg * dt * 80;
-	//UE_LOG(LogTemp, Warning, TEXT(addRotation));
+	addRotation = dt * 80;
+
 	if (FMath::IsNearlyEqual(doorCurrentRotation, maxDegree, 1.5f))
 	{
 		Opening = false;
@@ -149,7 +152,11 @@ void ADoorKeySwing::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent,
 	bool bFromSweep,
 	const FHitResult &SweepResult)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Door Key Swing End Overlap Triggered"));
+	// Check if it is not a null pointer
+	if (OtherActor && (OtherActor != this))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Door Key Swing End Overlap Triggered"));
+	}
 	//if (!isClosed)
 	//{
 	//	Opening = false;

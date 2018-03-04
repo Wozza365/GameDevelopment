@@ -4,28 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "DoorKeySwing.generated.h"
+#include "DoubleTriggerBoxDoor.generated.h"
 
 UCLASS()
-class ECHOES_OF_TIME_API ADoorKeySwing : public AActor
+class ECHOES_OF_TIME_API ADoubleTriggerBoxDoor : public AActor
 {
 	GENERATED_BODY()
-
-public:
+	
+public:	
 	// Sets default values for this actor's properties
-	ADoorKeySwing();
+	ADoubleTriggerBoxDoor();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
+public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Functions for closing and opening doors
-	UFUNCTION()
-		void CloseDoor(float dt);
 
 	UFUNCTION()
 		void OpenDoor(float dt);
@@ -33,10 +29,14 @@ public:
 	// Pointer to door component
 	class UStaticMeshComponent* door;
 
-	// Pointer Box Component
+	// Pointer Box1 Component
 	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
-		class UBoxComponent* boxComp;
-	
+		class UBoxComponent* triggerBox1;
+
+	// Pointer Box2 Component
+	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
+		class UBoxComponent* triggerBox2;
+
 	// Overlap Events
 	UFUNCTION()
 		void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
@@ -46,21 +46,14 @@ public:
 			bool bFromSweep,
 			const FHitResult &SweepResult);
 
-	UFUNCTION()
-		void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent,
-			AActor* OtherActor,
-			UPrimitiveComponent* OtherComp,
-			int32 OtherBodyIndex,
-			bool bFromSweep,
-			const FHitResult &SweepResult);
-
 	// Variables
 	bool Opening;
-	bool Closing;
-	bool isClosed;
-	class ADoorKeySwing* debug;
+	bool isOpened;
+	bool triggerBox1Activated;
+	bool triggerBox2Activated;
+	class ADoubleTriggerBoxDoor* debug;
 
 	float maxDegree;			// Max Degree that doors can rotate
-	float addRotation;						
-	float doorCurrentRotation;	
+	float addRotation;
+	float doorCurrentRotation;
 };
