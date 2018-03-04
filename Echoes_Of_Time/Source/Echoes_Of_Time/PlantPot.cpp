@@ -31,9 +31,6 @@ APlantPot::APlantPot()
 	// Add overlap event function
 	potTriggerBox->OnComponentBeginOverlap.AddDynamic(this, &APlantPot::OnOverlapBegin);
 
-	//Initiate varaibles
-	plantInPot = false;
-
 	//Create wall, parse asset
 	wall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Wall"));
 	wall->SetupAttachment(RootComponent);
@@ -45,14 +42,17 @@ APlantPot::APlantPot()
 	{
 		// TODO:
 		// Set costum trace/object response to Overlap so you dont have to do it in editior after spawning.
-	wall->SetStaticMesh(WallAsset.Object);
-	wall->SetRelativeLocation(FVector::ZeroVector);
-	wall->SetWorldScale3D(FVector(1.0f));
-	wall->bGenerateOverlapEvents = true;
-	wall->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	wall->bHiddenInGame = true;
-	wall->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
+		wall->SetStaticMesh(WallAsset.Object);
+		wall->SetRelativeLocation(FVector::ZeroVector);
+		wall->SetWorldScale3D(FVector(1.0f));
+		wall->bGenerateOverlapEvents = true;
+		wall->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		wall->bHiddenInGame = true;
+		wall->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
 	}
+
+	//Initiate varaibles
+	plantInPot = false;
 }
 
 // Called when the game starts or when spawned

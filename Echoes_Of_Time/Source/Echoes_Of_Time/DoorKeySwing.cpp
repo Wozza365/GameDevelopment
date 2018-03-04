@@ -25,7 +25,7 @@ ADoorKeySwing::ADoorKeySwing()
 
 	// Add overlap events functions 
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapBegin);
-	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);
+	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);  // Bug? 2x Begin?
 
 	// Add door asset as Box component and set it as root component
 	door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));
