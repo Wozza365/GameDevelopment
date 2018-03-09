@@ -32,7 +32,8 @@ public:
 
 	// Pointer to door component
 	class UStaticMeshComponent* door;
-
+	// Pointer to door 2
+	class UStaticMeshComponent* door2;
 	// Pointer Box Component
 	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
 		class UBoxComponent* boxComp;
