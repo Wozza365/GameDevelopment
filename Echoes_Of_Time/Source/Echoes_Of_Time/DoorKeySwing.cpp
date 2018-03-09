@@ -27,19 +27,33 @@ ADoorKeySwing::ADoorKeySwing()
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapBegin);
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);  // Bug? 2x Begin?
 
-	// Add door asset as Box component and set it as root component
-	door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));
-	door->SetupAttachment(RootComponent);
+	// Add door asset as Box component and set it as root component																		  
+	door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));																	  
+	door->SetupAttachment(RootComponent);																								  
+																																		  
+	// Parse asset																														  
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorAsset(TEXT("/Game/StarterContent/Props/SM_Door.SM_Door"));				  
+																																		  
+	if (DoorAsset.Succeeded())																											  
+	{																																	  
+		door->SetStaticMesh(DoorAsset.Object);																							  
+		door->SetRelativeLocation(FVector(0.0f, 50.0f, -100.0f)); // set relative location to trigger box								  
+		door->SetWorldScale3D(FVector(1.0f));																							  
+	}																																	  
+																																		  
+	//// Add door asset as Box component and set it as root component																		  
+	//door2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door2"));																	  
+	//door2->SetupAttachment(RootComponent);
 
-	// Parse asset
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorAsset(TEXT("/Game/StarterContent/Props/SM_Door.SM_Door"));
+	//// Parse asset
+	//static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorAsset2(TEXT("/Game/StarterContent/Props/SM_Door_2.SM_Door_2"));
 
-	if (DoorAsset.Succeeded())
-	{
-		door->SetStaticMesh(DoorAsset.Object);
-		door->SetRelativeLocation(FVector(0.0f, 50.0f, -100.0f)); // set relative location to trigger box
-		door->SetWorldScale3D(FVector(1.0f));
-	}
+	//if (DoorAsset2.Succeeded())
+	//{
+	//	door2->SetStaticMesh(DoorAsset2.Object);
+	//	door2->SetRelativeLocation(FVector(0.0f, 50.0f, -100.0f)); // set relative location to trigger box
+	//	door2->SetWorldScale3D(FVector(1.0f));
+	//}
 
 	// Set varaibles
 
