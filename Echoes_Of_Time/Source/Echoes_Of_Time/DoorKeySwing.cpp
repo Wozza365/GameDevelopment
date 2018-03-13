@@ -25,7 +25,7 @@ ADoorKeySwing::ADoorKeySwing()
 
 	// Add overlap events functions 
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapBegin);
-	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);  // Bug? 2x Begin?
+	boxComp->OnComponentEndOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);  // Bug? 2x Begin?
 
 	// Add door asset as Box component and set it as root component																		  
 	door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));																	  
@@ -162,12 +162,10 @@ void ADoorKeySwing::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 void ADoorKeySwing::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent,
 	AActor* OtherActor,
 	UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex,
-	bool bFromSweep,
-	const FHitResult &SweepResult)
+	int32 OtherBodyIndex)
 {
-	// Check if it is not a null pointer
-	if (OtherActor && (OtherActor != this))
+	// Other Actor is the actor that triggered the event. Check that is not ourself.  
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Door Key Swing End Overlap Triggered"));
 	}
