@@ -52,5 +52,7 @@ public:
 	float addRotation;
 	float windowCurrentRotation;
 	
+	UPROPERTY(EditAnywhere)
+		bool isSolution;
 	
 };

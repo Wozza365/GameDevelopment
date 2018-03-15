@@ -2,6 +2,7 @@
 
 #include "WindowController.h"
 #include "WindowSwing.h"
+#include "Puzzle1Variables.h"
 
 // Sets default values for this component's properties
 UWindowController::UWindowController()
@@ -42,11 +43,12 @@ void UWindowController::OnOverlapBegin(class AActor* OtherActor)
 
 void UWindowController::OnOverlapEnd(AWindowSwing* other)
 {
-	if (!currentWindow->IsOverlappingActor(other))
-	{
-		currentWindow = NULL;
-		//UE_LOG(LogTemp, Warning, TEXT("OverlapEnd"));
-	}
+	currentWindow = NULL;
+	//if (!currentWindow->IsOverlappingActor(other))
+	//{
+	//	currentWindow = NULL;
+	//	//UE_LOG(LogTemp, Warning, TEXT("OverlapEnd"));
+	//}
 }
 
 void UWindowController::OnAction()
@@ -55,16 +57,20 @@ void UWindowController::OnAction()
 	{
 		currentWindow->ToggleWindow();
 		//Add boolean value settings
-		/*if (APuzzle1Variables::GetWaterFlow())
+		if (currentWindow->isSolution) 
 		{
-			APuzzle1Variables::SetWaterFlow(false);
-			UE_LOG(LogTemp, Warning, TEXT("Water Flow False"));
+			if (!currentWindow->isClosed) 
+			{
+				APuzzle1Variables::SetLightOnPoint(true);
+				UE_LOG(LogTemp, Warning, TEXT("Window is solution and is open"));
+			}
+			else
+			{
+				APuzzle1Variables::SetLightOnPoint(false);
+				UE_LOG(LogTemp, Warning, TEXT("Window is solution and is closed"));
+			}
 		}
-		else
-		{
-			APuzzle1Variables::SetWaterFlow(true);
-			UE_LOG(LogTemp, Warning, TEXT("Water Flow True"));
-		}*/
+		UE_LOG(LogTemp, Warning, TEXT("Window is not solution"));
 	}
 	else
 	{

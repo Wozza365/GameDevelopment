@@ -33,8 +33,20 @@ AWindowSwing::AWindowSwing()
 	{
 		window->SetStaticMesh(WindowAsset.Object);
 		window->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f)); // set relative location to root
-		window->SetWorldScale3D(FVector(1.0f));
+		window->SetWorldScale3D(FVector(0.75f));
 	}
+
+	//Declare variables
+	Opening = false;
+	Closing = false;
+	isClosed = true;
+
+	float maxDegree = 90.0f;			// Max degree that doors can rotate
+	float addRotation = 0.0f;
+	float windowCurrentRotation = 0.0f;
+
+	UPROPERTY(EditAnywhere)
+		bool isSolution = false;
 
 }
 
