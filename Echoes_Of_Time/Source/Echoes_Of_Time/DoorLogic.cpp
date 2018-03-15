@@ -66,7 +66,6 @@ void UDoorLogic::OnAction(UCameraComponent* camComp)
 		CurrentDoor->ToggleDoor(ForwardVector);
 		UE_LOG(LogTemp, Warning, TEXT("Open"));
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Your message"));
 }
 
 ADoorSwing* UDoorLogic::GetCurrentDoor()
