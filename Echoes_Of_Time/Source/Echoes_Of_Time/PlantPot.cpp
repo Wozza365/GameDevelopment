@@ -7,6 +7,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "ConstructorHelpers.h"
 #include "Plant.h"
+#include "Puzzle1Variables.h"
+
 
 //#define SPHERE_TRACER ECC_GameTraceChannel1
 
@@ -30,6 +32,7 @@ APlantPot::APlantPot()
 
 	// Add overlap event function
 	potTriggerBox->OnComponentBeginOverlap.AddDynamic(this, &APlantPot::OnOverlapBegin);
+	potTriggerBox->OnComponentEndOverlap.AddDynamic(this, &APlantPot::OnOverlapEnd);
 
 	//Create wall, parse asset
 	wall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Wall"));
@@ -41,7 +44,7 @@ APlantPot::APlantPot()
 	if (WallAsset.Succeeded())
 	{
 		// TODO:
-		// Set costum trace/object response to Overlap so you dont have to do it in editior after spawning.
+		// Set custom trace/object response to Overlap so you dont have to do it in editior after spawning.
 		wall->SetStaticMesh(WallAsset.Object);
 		wall->SetRelativeLocation(FVector::ZeroVector);
 		wall->SetWorldScale3D(FVector(1.0f));
@@ -68,11 +71,22 @@ void APlantPot::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(plantInPot)
+	if(APuzzle1Variables::GetWaterFlow() &&
+		APuzzle1Variables::GetLightOnPoint() &&
+		APuzzle1Variables::GetIsPlantInside())
 	{
 		// Make wall visible and enable collisions
 		wall->SetHiddenInGame(false);
 		wall->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	}
+
+	if (!APuzzle1Variables::GetWaterFlow() ||
+		!APuzzle1Variables::GetLightOnPoint() ||
+		!APuzzle1Variables::GetIsPlantInside())
+	{
+		// Make wall visible and enable collisions
+		wall->SetHiddenInGame(true);
+		wall->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 }
 
@@ -90,7 +104,23 @@ void APlantPot::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 		if (APlant* plant = Cast<APlant>(OtherActor))
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Plant in pot - Begin Overlap Triggered"));
-			plantInPot = true;
+			//plantInPot = true;
+			APuzzle1Variables::SetIsPlantInside(true);
+		}
+	}
+}
+
+void APlantPot::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent,
+	AActor* OtherActor,
+	UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex)
+{
+	// Other Actor is the actor that triggered the event. Check that is not ourself.  
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
+	{
+		if (APlant* plant = Cast<APlant>(OtherActor))
+		{
+			APuzzle1Variables::SetIsPlantInside(false);
 		}
 	}
 }
