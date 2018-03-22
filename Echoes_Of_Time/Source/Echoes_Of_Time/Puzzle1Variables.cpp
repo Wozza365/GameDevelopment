@@ -3,7 +3,7 @@
 #include "Puzzle1Variables.h"
 
 bool APuzzle1Variables::bWaterFlow = false;
-bool APuzzle1Variables::bLightOnPoint = true;
+bool APuzzle1Variables::bLightOnPoint = false;
 bool APuzzle1Variables::bIsPlantInside = false;
 
 bool APuzzle1Variables::GetWaterFlow()
