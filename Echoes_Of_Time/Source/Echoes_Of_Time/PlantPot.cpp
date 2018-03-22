@@ -80,14 +80,14 @@ void APlantPot::Tick(float DeltaTime)
 		wall->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
 
-	//if (!APuzzle1Variables::GetWaterFlow() ||
-	//	!APuzzle1Variables::GetLightOnPoint() ||
-	//	!APuzzle1Variables::GetIsPlantInside())
-	//{
-	//	// Make wall visible and enable collisions
-	//	wall->SetHiddenInGame(true);
-	//	wall->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	//}
+	if (!APuzzle1Variables::GetWaterFlow() ||
+		!APuzzle1Variables::GetLightOnPoint() ||
+		!APuzzle1Variables::GetIsPlantInside())
+	{
+		// Make wall visible and enable collisions
+		wall->SetHiddenInGame(true);
+		wall->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 }
 
 void APlantPot::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,

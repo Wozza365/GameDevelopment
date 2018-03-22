@@ -13,7 +13,7 @@ APlant::APlant()
 	plant = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Plant"));
 	plant->SetupAttachment(RootComponent);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> PlantAsset(TEXT("/Game/StarterContent/Props/SM_Bush.SM_Bush"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> PlantAsset(TEXT("/Game/0Dev_Assets/Jason/Vine_Plant/Vines_Plant.Vines_Plant"));
 
 	if (PlantAsset.Succeeded())
 	{
