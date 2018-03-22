@@ -25,7 +25,7 @@ ADoorKeySwing::ADoorKeySwing()
 
 	// Add overlap events functions 
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapBegin);
-	boxComp->OnComponentEndOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);  // Bug? 2x Begin?
+	boxComp->OnComponentEndOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);
 
 	// Add door asset as Box component and set it as root component																		  
 	door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));																	  
@@ -60,9 +60,34 @@ ADoorKeySwing::ADoorKeySwing()
 	isClosed = true;
 	Opening = false;
 	Closing = true;
+	isKeyInside = false;
 
 	maxDegree = 90.0f;
 	doorCurrentRotation = 0.0f;
+
+	// Key Animation Controls
+
+	doorLocation = door->GetComponentToWorld().GetLocation();
+	startPosition = FVector().ZeroVector;
+	endPosition = FVector().ZeroVector;
+	moveVector = FVector().ZeroVector;
+	newKeyLocation = FVector().ZeroVector;
+
+	moveToStartingPosition = true;
+	moveToEndPosition = false;
+	startRotate = false;
+
+	moveSpeed = 60.0f;
+	rotationSpeed = 90.0f;
+
+	// Scene Components
+
+	keyStartPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Key Start Point"));
+	keyStartPoint->SetupAttachment(door);
+	keyStartPoint->SetRelativeLocation(FVector(-40,-80,90));
+	keyEndPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Key End Point"));
+	keyEndPoint->SetupAttachment(door);
+	keyEndPoint->SetRelativeLocation(FVector(0,-80,90));
 }
 
 // Called when the game starts or when spawned
@@ -82,11 +107,24 @@ void ADoorKeySwing::Tick(float DeltaTime)
 	if (Opening)
 	{
 		OpenDoor(DeltaTime);
+		doorKey->SetActorLocation(keyEndPoint->GetComponentTransform().GetLocation());
 	}
 
 	if (Closing)
 	{
 		CloseDoor(DeltaTime);
+	}
+
+	bKeyMovementFinished = KeyMovement(DeltaTime);
+
+	if (bKeyMovementFinished)
+	{
+		if (isClosed)
+		{
+			isClosed = false;
+			Closing = false;
+			Opening = true;
+		}
 	}
 }
 
@@ -144,19 +182,13 @@ void ADoorKeySwing::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 	bool bFromSweep,
 	const FHitResult &SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Door Key Swing Begin Overlap Triggered"));
 
-	if (ADoorKey* doorKey = Cast<ADoorKey>(OtherActor))
+	if (ADoorKey* keyInside = Cast<ADoorKey>(OtherActor))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Door Key Found - Begin Overlap Triggered"));
-
-		if (isClosed)
-		{
-			isClosed = false;
-			Closing = false;
-			Opening = true;
-		}
+		UE_LOG(LogTemp, Warning, TEXT("Door Key Inside"));
+		isKeyInside = true;
 	}
+	
 }
 
 void ADoorKeySwing::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent,
@@ -169,10 +201,113 @@ void ADoorKeySwing::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent,
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Door Key Swing End Overlap Triggered"));
 	}
-	//if (!isClosed)
-	//{
-	//	Opening = false;
-	//	isClosed = true;
-	//	Closing = true;
-	//}
+
+	if (ADoorKey* keyInside = Cast<ADoorKey>(OtherActor))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Door Key Outside"));
+		isKeyInside = false;
+	}
+}
+
+void ADoorKeySwing::OnActionKeyPressed(ADoorKey* key)
+{
+	// Ne key inside no fun
+	if (isKeyInside)
+	{
+		// if key is NULL we have a problem
+		if (key != NULL)
+		{
+			doorKey = key;
+			keyLocation = doorKey->GetActorLocation();
+		}
+	}
+}
+
+bool ADoorKeySwing::KeyMovement(float dt)
+{
+	// No key -> No key movement 
+	if (doorKey != NULL)
+	{
+		// Prepare key in front of the hole
+		if (moveToStartingPosition)
+		{
+			// startPosition -> scene component, default position is in front of the door
+			startPosition = keyStartPoint->GetComponentLocation();
+			keyLocation = doorKey->GetActorLocation();
+
+			// Get movement vector
+			moveVector = startPosition - keyLocation;
+			moveVector.Normalize();
+
+			// Set key forward vector to point into the hole.
+			// TODO:
+			// Add shiny and smooth rotation so it will look perfect <3 
+			doorKey->SetActorRotation(moveVector.Rotation());
+			
+			// How far key should move in one frame
+			newKeyLocation = moveVector * moveSpeed * dt;
+			newTransform = FTransform(newKeyLocation);
+
+			// This function adds location to existiong one not replace it!
+			doorKey->AddActorWorldTransform(newTransform);
+			
+			// Check if reached its destination
+			if (FMath::IsNearlyEqual(doorKey->GetActorLocation().X, startPosition.X, 1.0f))
+				if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Y, startPosition.Y, 1.0f))
+					if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Z, startPosition.Z, 1.0f))
+					{
+						moveToEndPosition = true;
+						moveToStartingPosition = false;
+					}
+		}
+
+		if (moveToEndPosition)
+		{
+			// endPosition -> scene component, default position is inside the key hole
+			endPosition = keyEndPoint->GetComponentLocation();
+			keyLocation = doorKey->GetActorLocation();
+
+			// Get movement vector
+			moveVector = endPosition - keyLocation;
+			moveVector.Normalize();
+
+			// How far key should move in one frame
+			newKeyLocation = moveVector * moveSpeed * dt;
+			newTransform = FTransform(newKeyLocation);
+
+			// This function adds location to existiong one not replace it!
+			doorKey->AddActorWorldTransform(newTransform);
+
+			// Check if reached its destination
+			if (FMath::IsNearlyEqual(doorKey->GetActorLocation().X, endPosition.X, 1.0f))
+				if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Y, endPosition.Y, 1.0f))
+					if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Z, endPosition.Z, 1.0f))
+					{
+						moveToEndPosition = false;
+						startRotate = true;
+					}
+		}
+
+		if (startRotate)
+		{
+			// rotation value
+			float addKeyRotation = rotationSpeed * dt;
+			
+			// need for test later if totalRotation = 360 stop rotation
+			totalRotation += addKeyRotation;
+
+			// Create rotator
+			FRotator newKeyRotation = FRotator(0, 0, addKeyRotation);
+
+			// Add rotator to rotation
+			doorKey->AddActorWorldRotation(newKeyRotation);
+
+			if (FMath::IsNearlyEqual(totalRotation, 360.0f, 1.0f))
+			{
+				startRotate = false;
+				return true;
+			}
+		}
+	}
+	return false;
 }
