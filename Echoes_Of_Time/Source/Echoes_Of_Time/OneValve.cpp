@@ -29,7 +29,7 @@ AOneValve::AOneValve()
 	valve->SetupAttachment(RootComponent);
 
 	// Parse asset
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> ValveAsset(TEXT("/Game/StarterContent/Props/SM_TableRound.SM_TableRound"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> ValveAsset(TEXT("/Game/Assets/Props/Vase/vase.vase"));
 
 	if (ValveAsset.Succeeded())
 	{
