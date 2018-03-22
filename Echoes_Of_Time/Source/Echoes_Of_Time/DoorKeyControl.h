@@ -32,6 +32,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Door Key Control")
 		void OnOverlapBegin(ADoorKeySwing* door);
 
+	UFUNCTION(BlueprintCallable, Category = "Door Key Control")
+		void OnOverlapEnd();
+
 	class ADoorKey* doorKey;
 	class ADoorKeySwing* doorActor;
 };

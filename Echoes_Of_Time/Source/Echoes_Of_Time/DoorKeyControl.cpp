@@ -38,7 +38,8 @@ void UDoorKeyControl::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 bool UDoorKeyControl::OnKeyPressed(class UPhysicsHandleComponent* physicsHandle, class AActor* actorHeld)
 {
-	if (physicsHandle->bIsActive)
+	UPrimitiveComponent* component = physicsHandle->GetGrabbedComponent();
+	if (component != NULL)
 	{
 		doorKey = Cast<ADoorKey>(actorHeld);
 		if (doorKey != NULL)
@@ -63,4 +64,10 @@ bool UDoorKeyControl::OnKeyPressed(class UPhysicsHandleComponent* physicsHandle,
 void UDoorKeyControl::OnOverlapBegin(ADoorKeySwing* door)
 {
 	doorActor = Cast<ADoorKeySwing>(door);
+}
+
+void UDoorKeyControl::OnOverlapEnd()
+{
+	UE_LOG(LogTemp, Warning, TEXT("door actor null"));
+	doorActor = NULL;
 }
