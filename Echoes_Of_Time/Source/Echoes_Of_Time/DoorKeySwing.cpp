@@ -15,13 +15,16 @@ ADoorKeySwing::ADoorKeySwing()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	USceneComponent* root = CreateDefaultSubobject<USceneComponent>(TEXT("ROOT"));
+	RootComponent = root;
+
 	// Create Triger Box
 	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Comp"));
 	boxComp->InitBoxExtent(FVector(150, 100, 100));
 	boxComp->SetCollisionProfileName("Trigger");
 	boxComp->SetSimulatePhysics(false);
 	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	RootComponent = boxComp;
+	boxComp->SetupAttachment(RootComponent);
 
 	// Add overlap events functions 
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapBegin);
@@ -32,7 +35,7 @@ ADoorKeySwing::ADoorKeySwing()
 	door->SetupAttachment(RootComponent);																								  
 																																		  
 	// Parse asset																														  
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorAsset(TEXT("/Game/StarterContent/Props/SM_Door.SM_Door"));				  
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorAsset(TEXT("/Game/Assets/Props/BronzeDoor/BronzeDoor.BronzeDoor"));				  
 																																		  
 	if (DoorAsset.Succeeded())																											  
 	{																																	  
@@ -96,7 +99,7 @@ void ADoorKeySwing::BeginPlay()
 	Super::BeginPlay();
 
 	// Draw trigger box for testing
-	DrawDebugBox(GetWorld(), GetActorLocation(), boxComp->GetScaledBoxExtent(), FQuat(GetActorRotation()), FColor::Red, true, -1.0f, 0, 2);
+	//DrawDebugBox(GetWorld(), GetActorLocation(), boxComp->GetScaledBoxExtent(), FQuat(GetActorRotation()), FColor::Red, true, -1.0f, 0, 2);
 }
 
 // Called every frame

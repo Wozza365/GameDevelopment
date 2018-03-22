@@ -70,7 +70,6 @@ void UWindowController::OnAction()
 				UE_LOG(LogTemp, Warning, TEXT("Window is solution and is closed"));
 			}
 		}
-		UE_LOG(LogTemp, Warning, TEXT("Window is not solution"));
 	}
 	else
 	{

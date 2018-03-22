@@ -3,7 +3,7 @@
 #include "Puzzle1Variables.h"
 
 bool APuzzle1Variables::bWaterFlow = false;
-bool APuzzle1Variables::bLightOnPoint = true;
+bool APuzzle1Variables::bLightOnPoint = false;
 bool APuzzle1Variables::bIsPlantInside = false;
 
 bool APuzzle1Variables::GetWaterFlow()
@@ -14,6 +14,14 @@ bool APuzzle1Variables::GetWaterFlow()
 void APuzzle1Variables::SetWaterFlow(bool b)
 {
 	APuzzle1Variables::bWaterFlow = b;
+	if (b)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Water Flow True"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Water Flow False"));
+	}
 }
 
 bool APuzzle1Variables::GetLightOnPoint()
@@ -24,6 +32,14 @@ bool APuzzle1Variables::GetLightOnPoint()
 void APuzzle1Variables::SetLightOnPoint(bool b)
 {
 	APuzzle1Variables::bLightOnPoint = b;
+	if (b)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Light on point True"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Light on point False"));
+	}
 }
 
 bool APuzzle1Variables::GetIsPlantInside()
@@ -34,4 +50,12 @@ bool APuzzle1Variables::GetIsPlantInside()
 void APuzzle1Variables::SetIsPlantInside(bool b)
 {
 	APuzzle1Variables::bIsPlantInside = b;
+	if (b)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Plant True"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Plant False"));
+	}
 }
