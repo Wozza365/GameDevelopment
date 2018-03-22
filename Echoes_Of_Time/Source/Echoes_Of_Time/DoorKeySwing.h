@@ -30,13 +30,11 @@ public:
 	UFUNCTION()
 		void OpenDoor(float dt);
 
-	// Pointer to door component
-	class UStaticMeshComponent* door;
-	// Pointer to door 2
-	class UStaticMeshComponent* door2;
-	// Pointer Box Component
-	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
-		class UBoxComponent* boxComp;
+	UFUNCTION()
+		bool KeyMovement(float dt);
+
+	UFUNCTION()
+		void OnActionKeyPressed(ADoorKey* key);
 	
 	// Overlap Events
 	UFUNCTION()
@@ -53,13 +51,54 @@ public:
 			UPrimitiveComponent* OtherComp,
 			int32 OtherBodyIndex);
 
+	// Pointer to door component
+	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
+		class UStaticMeshComponent* door;
+
+	// Pointer to door 2
+	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
+		class UStaticMeshComponent* door2;
+
+	// Pointer to door 2
+	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
+		class USceneComponent* keyStartPoint;
+
+	// Pointer to door 2
+	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
+		class USceneComponent* keyEndPoint;
+
+	// Pointer Box Component
+	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
+		class UBoxComponent* boxComp;
+
 	// Variables
 	bool Opening;
 	bool Closing;
 	bool isClosed;
+	bool isKeyInside;
+	bool bKeyMovementFinished;
+	class ADoorKey* doorKey;
 	class ADoorKeySwing* debug;
 
 	float maxDegree;			// Max Degree that doors can rotate
 	float addRotation;						
 	float doorCurrentRotation;	
+
+	// Key animation controls
+	FVector doorLocation;
+	FVector keyLocation;
+	FVector startPosition;	// in front of key hole
+	FVector endPosition;	// key hole location
+	FVector moveVector;
+	FVector newKeyLocation;
+
+	FTransform newTransform;
+
+	float moveSpeed;
+	float rotationSpeed;
+	float totalRotation;
+
+	bool moveToStartingPosition;
+	bool moveToEndPosition;
+	bool startRotate;
 };
