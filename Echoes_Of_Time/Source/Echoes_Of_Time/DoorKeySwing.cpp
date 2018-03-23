@@ -15,12 +15,42 @@ ADoorKeySwing::ADoorKeySwing()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	USceneComponent* root = CreateDefaultSubobject<USceneComponent>(TEXT("ROOT"));
+	root = CreateDefaultSubobject<USceneComponent>(TEXT("ROOT"));
 	RootComponent = root;
+
+	// Add door asset 															  
+	doorRight = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door Right"));																	  
+	doorRight->SetupAttachment(RootComponent);
+																																		  
+	// Parse asset																														  
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorRight(TEXT("/Game/Assets/Props/BronzeDoor/BronzeDoorWithLock.BronzeDoorWithLock"));				  
+																																		  
+	if (DoorRight.Succeeded())
+	{							
+		doorRight->SetStaticMesh(DoorRight.Object);
+		doorRight->SetRelativeLocation(FVector(210.0f, 50.0f, 0.0f));			  
+		doorRight->SetWorldScale3D(FVector(1.0f));																							  
+	}																																	  
+																																		  
+	// Add door asset																	  
+	doorLeft = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door Left"));
+	doorLeft->SetupAttachment(RootComponent);
+
+	// Parse asset																														  
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorLeft(TEXT("/Game/Assets/Props/BronzeDoor/BronzeDoor.BronzeDoor"));
+
+	if (DoorLeft.Succeeded())
+	{
+		doorLeft->SetStaticMesh(DoorLeft.Object);
+		doorLeft->SetRelativeLocation(FVector(-177.0f, 36.0f, 0.0f));	
+		doorLeft->SetWorldRotation(FRotator(0.0f, -180.0f, 0.0f));
+		doorLeft->SetWorldScale3D(FVector(1.0f));
+	}
 
 	// Create Triger Box
 	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Comp"));
 	boxComp->InitBoxExtent(FVector(150, 100, 100));
+	boxComp->AddRelativeLocation(FVector(80.0f, 160.0f, 100.0f));
 	boxComp->SetCollisionProfileName("Trigger");
 	boxComp->SetSimulatePhysics(false);
 	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
@@ -29,34 +59,6 @@ ADoorKeySwing::ADoorKeySwing()
 	// Add overlap events functions 
 	boxComp->OnComponentBeginOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapBegin);
 	boxComp->OnComponentEndOverlap.AddDynamic(this, &ADoorKeySwing::OnOverlapEnd);
-
-	// Add door asset as Box component and set it as root component																		  
-	door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));																	  
-	door->SetupAttachment(RootComponent);																								  
-																																		  
-	// Parse asset																														  
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorAsset(TEXT("/Game/Assets/Props/BronzeDoor/BronzeDoor.BronzeDoor"));				  
-																																		  
-	if (DoorAsset.Succeeded())																											  
-	{																																	  
-		door->SetStaticMesh(DoorAsset.Object);																							  
-		door->SetRelativeLocation(FVector(0.0f, 50.0f, -100.0f)); // set relative location to trigger box								  
-		door->SetWorldScale3D(FVector(1.0f));																							  
-	}																																	  
-																																		  
-	//// Add door asset as Box component and set it as root component																		  
-	//door2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door2"));																	  
-	//door2->SetupAttachment(RootComponent);
-
-	//// Parse asset
-	//static ConstructorHelpers::FObjectFinder<UStaticMesh> DoorAsset2(TEXT("/Game/StarterContent/Props/SM_Door_2.SM_Door_2"));
-
-	//if (DoorAsset2.Succeeded())
-	//{
-	//	door2->SetStaticMesh(DoorAsset2.Object);
-	//	door2->SetRelativeLocation(FVector(0.0f, 50.0f, -100.0f)); // set relative location to trigger box
-	//	door2->SetWorldScale3D(FVector(1.0f));
-	//}
 
 	// Set varaibles
 
@@ -70,7 +72,7 @@ ADoorKeySwing::ADoorKeySwing()
 
 	// Key Animation Controls
 
-	doorLocation = door->GetComponentToWorld().GetLocation();
+	doorLocation = doorRight->GetComponentToWorld().GetLocation();
 	startPosition = FVector().ZeroVector;
 	endPosition = FVector().ZeroVector;
 	moveVector = FVector().ZeroVector;
@@ -86,11 +88,11 @@ ADoorKeySwing::ADoorKeySwing()
 	// Scene Components
 
 	keyStartPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Key Start Point"));
-	keyStartPoint->SetupAttachment(door);
-	keyStartPoint->SetRelativeLocation(FVector(-40,-80,90));
+	keyStartPoint->SetupAttachment(doorRight);
+	keyStartPoint->SetRelativeLocation(FVector(-166.0f,40.0f, 168.0f));
 	keyEndPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Key End Point"));
-	keyEndPoint->SetupAttachment(door);
-	keyEndPoint->SetRelativeLocation(FVector(0,-80,90));
+	keyEndPoint->SetupAttachment(doorRight);
+	keyEndPoint->SetRelativeLocation(FVector(-166.0f,0.0f, 168.0f));
 }
 
 // Called when the game starts or when spawned
@@ -98,8 +100,6 @@ void ADoorKeySwing::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Draw trigger box for testing
-	//DrawDebugBox(GetWorld(), GetActorLocation(), boxComp->GetScaledBoxExtent(), FQuat(GetActorRotation()), FColor::Red, true, -1.0f, 0, 2);
 }
 
 // Called every frame
@@ -136,7 +136,7 @@ void ADoorKeySwing::Tick(float DeltaTime)
 void ADoorKeySwing::OpenDoor(float dt)
 {
 	//Get Current Z rotation
-	doorCurrentRotation = door->RelativeRotation.Yaw;
+	doorCurrentRotation = doorRight->RelativeRotation.Yaw;
 
 	addRotation = dt * 80;
 
@@ -148,14 +148,17 @@ void ADoorKeySwing::OpenDoor(float dt)
 	else if (Opening)
 	{
 		FRotator newRotation = FRotator(0.0f, addRotation, 0.0f);
-		door->AddRelativeRotation(FQuat(newRotation), false, 0, ETeleportType::None);
+		FRotator newRotationLeft = FRotator(0.0f, -addRotation, 0.0f);
+		doorRight->AddRelativeRotation(FQuat(newRotation), false, 0, ETeleportType::None);
+		doorKey->AddActorWorldRotation(FQuat(newRotation), false, 0, ETeleportType::None);
+		doorLeft->AddRelativeRotation(FQuat(newRotationLeft), false, 0, ETeleportType::None);
 	}
 }
 
 void ADoorKeySwing::CloseDoor(float dt)
 {
 	//Get Current Z rotation
-	doorCurrentRotation = door->RelativeRotation.Yaw;
+	doorCurrentRotation = doorRight->RelativeRotation.Yaw;
 
 	if (doorCurrentRotation > 0)
 	{
@@ -174,7 +177,9 @@ void ADoorKeySwing::CloseDoor(float dt)
 	else if (Closing)
 	{
 		FRotator newRotation = FRotator(0.0f, addRotation, 0.0f);
-		door->AddRelativeRotation(FQuat(newRotation), false, 0, ETeleportType::None);
+		doorRight->AddRelativeRotation(FQuat(newRotation), false, 0, ETeleportType::None);
+		doorKey->AddActorWorldRotation(FQuat(newRotation), false, 0, ETeleportType::None);
+		doorLeft->AddRelativeRotation(FQuat(newRotation), false, 0, ETeleportType::None);
 	}
 }
 
@@ -274,6 +279,10 @@ bool ADoorKeySwing::KeyMovement(float dt)
 			moveVector = endPosition - keyLocation;
 			moveVector.Normalize();
 
+			FVector rotationVector = endPosition - startPosition;
+			rotationVector.Normalize();
+			doorKey->SetActorRotation(rotationVector.Rotation());
+			//doorKey->SetActorRotation(FRotator(0, 180, 0));
 			// How far key should move in one frame
 			newKeyLocation = moveVector * moveSpeed * dt;
 			newTransform = FTransform(newKeyLocation);
@@ -300,7 +309,7 @@ bool ADoorKeySwing::KeyMovement(float dt)
 			totalRotation += addKeyRotation;
 
 			// Create rotator
-			FRotator newKeyRotation = FRotator(0, 0, addKeyRotation);
+			FRotator newKeyRotation = FRotator(-addKeyRotation, 0, 0);
 
 			// Add rotator to rotation
 			doorKey->AddActorWorldRotation(newKeyRotation);
