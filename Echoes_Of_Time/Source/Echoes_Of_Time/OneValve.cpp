@@ -29,7 +29,7 @@ AOneValve::AOneValve()
 	valve->SetupAttachment(RootComponent);
 
 	// Parse asset
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> ValveAsset(TEXT("/Game/Assets/Props/Vase/vase.vase"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> ValveAsset(TEXT("/Game/Assets/Props/BronzeDoor/BronzeDoor.BronzeDoor"));
 
 	if (ValveAsset.Succeeded())
 	{
@@ -38,23 +38,12 @@ AOneValve::AOneValve()
 		valve->SetWorldScale3D(FVector(1.0f));
 	}
 
-	// Invisible Trigger Actor 
-	invActor = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("InvActor"));
-	invActor->SetupAttachment(RootComponent);
-
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> InvisibleAsset(TEXT("/Game/StarterContent/Props/SM_Rock.SM_Rock"));
-
-	if (InvisibleAsset.Succeeded())
-	{
-		invActor->SetStaticMesh(InvisibleAsset.Object);
-		invActor->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f)); // set relative location to root
-		invActor->SetWorldScale3D(FVector(0.1f));
-		invActor->SetSimulatePhysics(false);
-	}
-
-	// Add overlap events functions 
-	boxComp->OnComponentBeginOverlap.AddDynamic(this, &AOneValve::OnOverlapBegin);
-	boxComp->OnComponentEndOverlap.AddDynamic(this, &AOneValve::OnOverlapEnd);
+	//Decalred variables
+	opening = false;
+	closing = false;
+	rotSpeed = 60.0f;
+	maxRot = 180.0f;
+	addRot = 0.0f;
 }
 
 // Called when the game starts or when spawned
@@ -69,55 +58,56 @@ void AOneValve::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (opening)
+	{
+		OpenValve(DeltaTime);
+	}
+
+	if (closing)
+	{
+		CloseValve(DeltaTime);
+	}
 }
 
-void AOneValve::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
-	AActor* OtherActor,
-	UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex,
-	bool bFromSweep,
-	const FHitResult &SweepResult)
+void AOneValve::OpenValve(float dt)
 {
-	// Other Actor is the actor that triggered the event. Check that is not ourself.  
-	//if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
-	//{
-	//	APuzzle1Variables::SetWaterFlow(true);
-	//	UE_LOG(LogTemp, Warning, TEXT("Water Flow True"));
-	//	if (APuzzle1Variables::GetWaterFlow())
-	//	{
-	//		UE_LOG(LogTemp, Warning, TEXT("KURWA"));
-	//	}
-	//}
+	addRot = dt * rotSpeed;
+	currentRot += addRot;
+	UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
+	FRotator newRot = FRotator(addRot, 0.0f, 0.0f);
+	valve->AddRelativeRotation(newRot);
+	if (FMath::IsNearlyEqual(maxRot, currentRot, 4.0f)) 
+	{
+		opening = false;
+		closing = false;
+	}
 }
 
-void AOneValve::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent,
-	AActor* OtherActor,
-	UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex)
+void AOneValve::CloseValve(float dt)
 {
-	// Other Actor is the actor that triggered the event. Check that is not ourself.  
-	//if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
-	//{
-	//	APuzzle1Variables::SetWaterFlow(false);
-	//	UE_LOG(LogTemp, Warning, TEXT("Water Flow False"));
-	//	if (!APuzzle1Variables::GetWaterFlow())
-	//	{
-	//		UE_LOG(LogTemp, Warning, TEXT("KURWA"));
-	//	}
-	//}
+	addRot = -dt * rotSpeed;
+	currentRot += addRot;
+	UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
+	FRotator newRot = FRotator(addRot, 0.0f, 0.0f);
+	valve->AddRelativeRotation(newRot);
+	if (FMath::IsNearlyEqual(0.0f, currentRot, 4.0f)) 
+	{
+		closing = false;
+		opening = false;
+	}
 }
 
-//UMeshComponent* AOneValve::SpawnNewComponent(UClass* ComponentClassToSpawn, const FTransform& SpawnLocation)
-//{
-//	//Make sure it is a scene component since we are going to attach it to our root component  
-//	check(ComponentClassToSpawn->IsChildOf(UMeshComponent::StaticClass()));
-//
-//	// Construct an object of the class passed to us but return a point to USceneComponent  
-//	UMeshComponent* Component = NewObject<UMeshComponent>(this, ComponentClassToSpawn);
-//
-//	//Attach the component and position it at the location given  
-//	Component->SetupAttachment(RootComponent);
-//	Component->SetWorldTransform(SpawnLocation);
-//	
-//	return Component;
-//}
+void AOneValve::ToggleValve()
+{
+	if (APuzzle1Variables::GetWaterFlow()) 
+	{
+		//currentRot += 1.0f;
+		opening = true;
+		closing = false;
+	}
+	else {
+		//currentRot -= 1.0f;
+		opening = false;
+		closing = true;
+	}
+}
