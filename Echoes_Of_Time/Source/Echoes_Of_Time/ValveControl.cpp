@@ -42,11 +42,13 @@ void UValveControl::OnAction()
 		if (APuzzle1Variables::GetWaterFlow())
 		{
 			APuzzle1Variables::SetWaterFlow(false);
+			CurrentValve->ToggleValve();
 			UE_LOG(LogTemp, Warning, TEXT("Water Flow False"));
 		}
 		else
 		{
 			APuzzle1Variables::SetWaterFlow(true);
+			CurrentValve->ToggleValve();
 			UE_LOG(LogTemp, Warning, TEXT("Water Flow True"));
 		}
 	}
@@ -70,9 +72,4 @@ void UValveControl::OverlapEnd(AOneValve* other)
 {
 	CurrentValve = NULL;
 	UE_LOG(LogTemp, Warning, TEXT("Current Valve Null"));
-	//if (!CurrentValve->IsOverlappingActor(other))
-	//{
-	//	CurrentValve = NULL;
-	//	UE_LOG(LogTemp, Warning, TEXT("Current Valve Null"));
-	//}
 }
