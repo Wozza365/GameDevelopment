@@ -51,6 +51,9 @@ public:
 			UPrimitiveComponent* OtherComp,
 			int32 OtherBodyIndex);
 
+	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
+		class USceneComponent* root;
+
 	// Pointer to door component
 	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
 		class UStaticMeshComponent* doorRight;

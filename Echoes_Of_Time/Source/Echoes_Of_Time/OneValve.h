@@ -26,22 +26,26 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Valve Comp")
 		UStaticMeshComponent* valve;
 
+	UPROPERTY(VisibleAnywhere, Category = "Invisible Comp")
+		UStaticMeshComponent* invActor;
+
 	UPROPERTY(VisibleAnywhere, Category = "Box Comp")
 		class UBoxComponent* boxComp;
+	
+	UFUNCTION()
+		void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent,
+			AActor* OtherActor,
+			UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex,
+			bool bFromSweep,
+			const FHitResult &SweepResult);
 
 	UFUNCTION()
-		void OpenValve(float dt);
+		void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent,
+			AActor* OtherActor,
+			UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex);
 
-	UFUNCTION()
-		void ToggleValve();
-
-	UFUNCTION()
-		void CloseValve(float dt);
-
-	bool opening;
-	bool closing;
-	float rotSpeed;
-	float maxRot;
-	float addRot;
-	float currentRot;
+	//UFUNCTION()
+	//	UMeshComponent* SpawnNewComponent(UClass* ComponentClassToSpawn, const FTransform& SpawnLocation);
 };
