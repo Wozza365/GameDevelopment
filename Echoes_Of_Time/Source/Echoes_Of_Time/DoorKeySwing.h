@@ -53,11 +53,11 @@ public:
 
 	// Pointer to door component
 	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
-		class UStaticMeshComponent* door;
+		class UStaticMeshComponent* doorRight;
 
 	// Pointer to door 2
 	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
-		class UStaticMeshComponent* door2;
+		class UStaticMeshComponent* doorLeft;
 
 	// Pointer to door 2
 	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
