@@ -23,10 +23,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleAnywhere, Category = "Valve Comp")
+	UPROPERTY(VisibleAnywhere, Category = "F_Valve Comp")
 		UStaticMeshComponent* valve;
 
-	UPROPERTY(VisibleAnywhere, Category = "Box Comp")
+	UPROPERTY(VisibleAnywhere, Category = "F_Box Comp")
 		class UBoxComponent* boxComp;
 
 	UFUNCTION()

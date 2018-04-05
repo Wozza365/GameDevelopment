@@ -19,6 +19,7 @@ public:
 	static bool bWaterFlow;
 	static bool bLightOnPoint;
 	static bool bIsPlantInside;
+	static bool bFuturePipeRusted;
 
 	static bool GetWaterFlow(); //if water flow is true pipe in future is rusted/removed
 	static void SetWaterFlow(bool b);
@@ -28,4 +29,7 @@ public:
 
 	static bool GetIsPlantInside();
 	static void SetIsPlantInside(bool b);
+
+	static bool GetFuturePipeRusted();
+	static void SetFuturePipeRusted(bool b);
 };

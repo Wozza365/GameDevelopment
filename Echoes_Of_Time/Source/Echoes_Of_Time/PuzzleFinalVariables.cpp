@@ -6,6 +6,7 @@
 bool APuzzleFinalVariables::bWaterFlow = false;
 bool APuzzleFinalVariables::bLightOnPoint = false;
 bool APuzzleFinalVariables::bIsPlantInside = false;
+bool APuzzleFinalVariables::bFuturePipeRusted = false;
 
 bool APuzzleFinalVariables::GetWaterFlow()
 {
@@ -60,6 +61,26 @@ void APuzzleFinalVariables::SetIsPlantInside(bool b)
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Plant False"));
+	}
+}
+
+
+//Pipe rusted set and get
+bool APuzzleFinalVariables::GetFuturePipeRusted()
+{
+	return APuzzleFinalVariables::bFuturePipeRusted;
+}
+
+void APuzzleFinalVariables::SetFuturePipeRusted(bool b)
+{
+	APuzzleFinalVariables::bFuturePipeRusted = b;
+	if (b)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Pipe Rusted"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Pipe NOT Rusted"));
 	}
 }
 
