@@ -38,6 +38,36 @@ AFinalValve::AFinalValve()
 		valve->SetWorldScale3D(FVector(1.0f));
 	}
 
+	pipeLeft = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("pipeLeft"));
+	pipeLeft->SetupAttachment(RootComponent);
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> PipeLeftAsset(TEXT("/Game/0Dev_Assets/Jason/Tree/Tree_Low_Poly.Tree_Low_Poly")); //replace with pipe pls
+
+	if (PipeLeftAsset.Succeeded())
+	{
+		pipeLeft->SetStaticMesh(PipeLeftAsset.Object);
+		pipeLeft->SetRelativeLocation(FVector::ZeroVector); // set relative location to root
+		pipeLeft->SetWorldScale3D(FVector(1.0f));
+		pipeLeft->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		pipeLeft->SetHiddenInGame(false);
+		pipeLeft->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
+	}
+
+	pipeRight = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("pipeRight"));
+	pipeRight->SetupAttachment(RootComponent);
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> PipeRightAsset(TEXT("/Game/0Dev_Assets/Jason/Tree/Tree_Low_Poly.Tree_Low_Poly")); //replace with pipe pls
+
+	if (PipeRightAsset.Succeeded())
+	{
+		pipeRight->SetStaticMesh(PipeRightAsset.Object);
+		pipeRight->SetRelativeLocation(FVector::ZeroVector); // set relative location to root
+		pipeRight->SetWorldScale3D(FVector(1.0f));
+		pipeRight->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		pipeRight->SetHiddenInGame(true);
+		pipeRight->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
+	}
+
 	//Decalred variables
 	opening = false;
 	closing = false;
@@ -62,11 +92,21 @@ void AFinalValve::Tick(float DeltaTime)
 	if (opening)
 	{
 		OpenValve(DeltaTime);
+
+		pipeLeft->SetHiddenInGame(true);
+		pipeLeft->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		pipeRight->SetHiddenInGame(false);
+		pipeRight->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
 
 	if (closing)
 	{
 		CloseValve(DeltaTime);
+
+		pipeLeft->SetHiddenInGame(false);
+		pipeLeft->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		pipeRight->SetHiddenInGame(true);
+		pipeRight->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
 }

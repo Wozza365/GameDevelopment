@@ -34,16 +34,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "F_Valve Control")
 		void F_OverlapEnd(class AFinalValve* other);
 
-
-	//testing here
-	UFUNCTION(BlueprintCallable, Category = "F_Valve Control")
-		void PipeOverlapBegin(class AActor* OtherActor);
-
-	UFUNCTION(BlueprintCallable, Category = "F_Valve Control")
-		void PipeOverlapEnd(class AFinalPipe* Other);
-
 	class AFinalValve* CurrentValve;
-	class AFinalPipe* CurrentPipe;
-
-	bool Rusted;
 };

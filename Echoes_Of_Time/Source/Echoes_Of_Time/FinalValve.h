@@ -29,6 +29,12 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "F_Box Comp")
 		class UBoxComponent* boxComp;
 
+	UPROPERTY(VisibleAnywhere, Category = "F_Box Comp")
+		class UStaticMeshComponent* pipeLeft;
+
+	UPROPERTY(VisibleAnywhere, Category = "F_Box Comp")
+		class UStaticMeshComponent* pipeRight;
+
 	UFUNCTION()
 		void OpenValve(float dt);
 
