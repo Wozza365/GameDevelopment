@@ -75,7 +75,7 @@ void AFinalValve::OpenValve(float dt)
 {
 	addRot = dt * rotSpeed;
 	currentRot += addRot;
-	UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
+	//UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
 	FRotator newRot = FRotator(0.0f, 0.0f, addRot);
 	valve->AddRelativeRotation(newRot);
 	if (FMath::IsNearlyEqual(maxRot, currentRot, 4.0f))
@@ -89,7 +89,7 @@ void AFinalValve::CloseValve(float dt)
 {
 	addRot = -dt * rotSpeed;
 	currentRot += addRot;
-	UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
+	//UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
 	FRotator newRot = FRotator(0.0f, 0.0f, addRot);
 	valve->AddRelativeRotation(newRot);
 	if (FMath::IsNearlyEqual(0.0f, currentRot, 4.0f))
