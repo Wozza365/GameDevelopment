@@ -38,7 +38,7 @@ APlantPot::APlantPot()
 	wall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Wall"));
 	wall->SetupAttachment(RootComponent);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> WallAsset(TEXT("/Game/Assets/WallMesh.WallMesh"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> WallAsset(TEXT("/Game/Assets/room2/0Dev_Assets/Jason/Vine/Vines_Plant.Vines_Plant"));
 
 	// Set wall proporties and make it invisible in game
 	if (WallAsset.Succeeded())
