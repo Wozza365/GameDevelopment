@@ -14,7 +14,7 @@ ADoorKey::ADoorKey()
 	statue = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Statue"));
 	statue->SetupAttachment(RootComponent);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> StatueAsset(TEXT("/Game/Assets/key.key"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> StatueAsset(TEXT("/Game/Assets/room2/0Dev_Assets/Megan/key.key"));
 
 	if (StatueAsset.Succeeded())
 	{

@@ -249,7 +249,7 @@ bool ADoorKeySwing::KeyMovement(float dt)
 
 			// Set key forward vector to point into the hole.
 			// TODO:
-			// Add shiny and smooth rotation so it will look perfect <3 
+			// Add smooth rotation so it will look perfect <3 
 			doorKey->SetActorRotation(moveVector.Rotation());
 			
 			// How far key should move in one frame
@@ -283,7 +283,7 @@ bool ADoorKeySwing::KeyMovement(float dt)
 			rotationVector.Normalize();
 			doorKey->SetActorRotation(rotationVector.Rotation());
 			//doorKey->SetActorRotation(FRotator(0, 180, 0));
-			// How far key should move in one frame
+			// How far key should move during one frame
 			newKeyLocation = moveVector * moveSpeed * dt;
 			newTransform = FTransform(newKeyLocation);
 
@@ -309,7 +309,7 @@ bool ADoorKeySwing::KeyMovement(float dt)
 			totalRotation += addKeyRotation;
 
 			// Create rotator
-			FRotator newKeyRotation = FRotator(-addKeyRotation, 0, 0);
+			FRotator newKeyRotation = FRotator(0, 0, addKeyRotation);
 
 			// Add rotator to rotation
 			doorKey->AddActorWorldRotation(newKeyRotation);

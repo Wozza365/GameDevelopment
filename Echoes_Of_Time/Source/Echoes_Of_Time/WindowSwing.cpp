@@ -27,7 +27,7 @@ AWindowSwing::AWindowSwing()
 	window -> SetupAttachment(RootComponent);
 
 	// Parse asset
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> WindowAsset(TEXT("/Game/Assets/Props/BronzeDoor/BronzeDoor.BronzeDoor"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> WindowAsset(TEXT("/Game/0Dev_Assets/Megan/Window_Panels.Window_Panels"));
 
 	if (WindowAsset.Succeeded())
 	{

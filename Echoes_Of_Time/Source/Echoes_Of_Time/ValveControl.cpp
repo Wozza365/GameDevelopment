@@ -39,8 +39,6 @@ void UValveControl::OnAction()
 {
 	if (CurrentValve != NULL)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Am i hitting here?"));
-
 		if (APuzzle1Variables::GetWaterFlow())
 		{
 			APuzzle1Variables::SetWaterFlow(false);
@@ -57,6 +55,30 @@ void UValveControl::OnAction()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Current Valve Null"));
+		if (APuzzle1Variables::GetWaterFlow())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Water Flow True"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Water Flow False"));
+		}
+		if (APuzzle1Variables::GetLightOnPoint())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Light on point True"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Light on point False"));
+		}
+		if (APuzzle1Variables::GetIsPlantInside())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Plant True"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Plant False"));
+		}
 	}
 }
 
