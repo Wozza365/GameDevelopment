@@ -74,6 +74,7 @@ AFinalValve::AFinalValve()
 	rotSpeed = 80.0f;
 	maxRot = 180.0f;
 	addRot = 0.0f;
+	ValveTag = "Edit me";
 
 }
 
@@ -141,15 +142,51 @@ void AFinalValve::CloseValve(float dt)
 
 void AFinalValve::ToggleValve()
 {
-	if (APuzzleFinalVariables::GetWaterFlow())
+	if (ValveTag == "LeftValve")
 	{
-		//currentRot += 1.0f;
-		opening = true;
-		closing = false;
+		UE_LOG(LogTemp, Warning, TEXT("LeftValve triggered"));
+		if (APuzzleFinalVariables::GetWaterFlow1())
+		{
+			//currentRot += 1.0f;
+			opening = true;
+			closing = false;
+		}
+		else {
+			//currentRot -= 1.0f;
+			opening = false;
+			closing = true;
+		}
 	}
-	else {
-		//currentRot -= 1.0f;
-		opening = false;
-		closing = true;
+	if (ValveTag == "RightValve")
+	{
+		UE_LOG(LogTemp, Warning, TEXT("RightValve triggered"));
+		if (APuzzleFinalVariables::GetWaterFlow3())
+		{
+			//currentRot += 1.0f;
+			opening = true;
+			closing = false;
+		}
+		else {
+			//currentRot -= 1.0f;
+			opening = false;
+			closing = true;
+		}
 	}
+	if (ValveTag == "BackValve")
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Back Valve triggered"));
+		if (APuzzleFinalVariables::GetWaterFlow2())
+		{
+			//currentRot += 1.0f;
+			opening = true;
+			closing = false;
+		}
+		else {
+			//currentRot -= 1.0f;
+			opening = false;
+			closing = true;
+		}
+	}
+
+	
 }

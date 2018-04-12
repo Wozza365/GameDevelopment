@@ -3,29 +3,41 @@
 #include "PuzzleFinalVariables.h"
 
 
-bool APuzzleFinalVariables::bWaterFlow = false;
+bool APuzzleFinalVariables::bWaterFlow1 = false;
+bool APuzzleFinalVariables::bWaterFlow2 = false;
+bool APuzzleFinalVariables::bWaterFlow3 = false;
 bool APuzzleFinalVariables::bLightOnPoint = false;
 bool APuzzleFinalVariables::bIsPlantInside = false;
 bool APuzzleFinalVariables::bFuturePipeRusted = false;
 
-bool APuzzleFinalVariables::GetWaterFlow()
+bool APuzzleFinalVariables::GetWaterFlow1()
 {
-	return APuzzleFinalVariables::bWaterFlow;
+	return APuzzleFinalVariables::bWaterFlow1;
 }
 
-void APuzzleFinalVariables::SetWaterFlow(bool b)
+void APuzzleFinalVariables::SetWaterFlow1(bool b)
 {
-	APuzzleFinalVariables::bWaterFlow = b;
-	if (b)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Water Flow True"));
-		UE_LOG(LogTemp, Warning, TEXT("Future Pipe Rusted"))
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Water Flow False"));
-		UE_LOG(LogTemp, Warning, TEXT("Future Pipe not Rusted"))
-	}
+	APuzzleFinalVariables::bWaterFlow1 = b;
+}
+
+bool APuzzleFinalVariables::GetWaterFlow2()
+{
+	return APuzzleFinalVariables::bWaterFlow2;
+}
+
+void APuzzleFinalVariables::SetWaterFlow2(bool b)
+{
+	APuzzleFinalVariables::bWaterFlow2 = b;
+}
+
+bool APuzzleFinalVariables::GetWaterFlow3()
+{
+	return APuzzleFinalVariables::bWaterFlow3;
+}
+
+void APuzzleFinalVariables::SetWaterFlow3(bool b)
+{
+	APuzzleFinalVariables::bWaterFlow3 = b;
 }
 
 bool APuzzleFinalVariables::GetLightOnPoint()

@@ -41,17 +41,50 @@ void UFinalValveControl::F_OnAction()
 
 	if (CurrentValve != NULL)
 	{
-		if (APuzzleFinalVariables::GetWaterFlow())
+		if (CurrentValve->ValveTag == "LeftValve")
 		{
-			APuzzleFinalVariables::SetWaterFlow(false);
-			CurrentValve->ToggleValve();
-			UE_LOG(LogTemp, Warning, TEXT("Water Flow False pipe2"));
+			if (APuzzleFinalVariables::GetWaterFlow1())
+			{
+				APuzzleFinalVariables::SetWaterFlow1(false);
+				CurrentValve->ToggleValve();
+				UE_LOG(LogTemp, Warning, TEXT("Water Flow False pipe2"));
+			}
+			else
+			{
+				APuzzleFinalVariables::SetWaterFlow1(true);
+				CurrentValve->ToggleValve();
+				UE_LOG(LogTemp, Warning, TEXT("Water Flow True pipe2"));
+			}
 		}
-		else
+		if (CurrentValve->ValveTag == "RightValve")
 		{
-			APuzzleFinalVariables::SetWaterFlow(true);
-			CurrentValve->ToggleValve();
-			UE_LOG(LogTemp, Warning, TEXT("Water Flow True pipe2"));
+			if (APuzzleFinalVariables::GetWaterFlow3())
+			{
+				APuzzleFinalVariables::SetWaterFlow3(false);
+				CurrentValve->ToggleValve();
+				UE_LOG(LogTemp, Warning, TEXT("Water Flow False pipe2"));
+			}
+			else
+			{
+				APuzzleFinalVariables::SetWaterFlow3(true);
+				CurrentValve->ToggleValve();
+				UE_LOG(LogTemp, Warning, TEXT("Water Flow True pipe2"));
+			}
+		}
+		if (CurrentValve->ValveTag == "BackValve")
+		{
+			if (APuzzleFinalVariables::GetWaterFlow2())
+			{
+				APuzzleFinalVariables::SetWaterFlow2(false);
+				CurrentValve->ToggleValve();
+				UE_LOG(LogTemp, Warning, TEXT("Water Flow False pipe2"));
+			}
+			else
+			{
+				APuzzleFinalVariables::SetWaterFlow2(true);
+				CurrentValve->ToggleValve();
+				UE_LOG(LogTemp, Warning, TEXT("Water Flow True pipe2"));
+			}
 		}
 	}
 	else

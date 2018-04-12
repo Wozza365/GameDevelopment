@@ -35,6 +35,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "F_Box Comp")
 		class UStaticMeshComponent* pipeRight;
 
+	UPROPERTY(EditAnywhere)
+		FString ValveTag;
+
 	UFUNCTION()
 		void OpenValve(float dt);
 
