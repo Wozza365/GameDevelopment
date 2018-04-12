@@ -41,7 +41,7 @@ AFinalValve::AFinalValve()
 	pipeLeft = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("pipeLeft"));
 	pipeLeft->SetupAttachment(RootComponent);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> PipeLeftAsset(TEXT("/Game/0Dev_Assets/Jason/Tree/Tree_Low_Poly.Tree_Low_Poly")); //replace with pipe pls
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> PipeLeftAsset(TEXT("/Game/0Dev_Assets/Megan/straight_modular_pipe_piece.straight_modular_pipe_piece")); //replace with pipe pls
 
 	if (PipeLeftAsset.Succeeded())
 	{
@@ -56,8 +56,8 @@ AFinalValve::AFinalValve()
 	pipeRight = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("pipeRight"));
 	pipeRight->SetupAttachment(RootComponent);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> PipeRightAsset(TEXT("/Game/0Dev_Assets/Jason/Tree/Tree_Low_Poly.Tree_Low_Poly")); //replace with pipe pls
-
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> PipeRightAsset(TEXT("/Game/0Dev_Assets/Megan/straight_modular_pipe_piece.straight_modular_pipe_piece")); //replace with pipe pls
+	
 	if (PipeRightAsset.Succeeded())
 	{
 		pipeRight->SetStaticMesh(PipeRightAsset.Object);
