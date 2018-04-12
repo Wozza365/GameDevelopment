@@ -49,7 +49,7 @@ ARoom3PlantPot::ARoom3PlantPot()
 	potTriggerBox2->OnComponentBeginOverlap.AddDynamic(this, &ARoom3PlantPot::OnOverlapBegin2);
 	potTriggerBox2->OnComponentEndOverlap.AddDynamic(this, &ARoom3PlantPot::OnOverlapEnd2);
 
-	//Create wall, parse asset
+	//Create wall, parse asset a
 	wall = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Wall"));
 	wall->SetupAttachment(RootComponent);
 
