@@ -82,7 +82,7 @@ ADoorKeySwing::ADoorKeySwing()
 	moveToEndPosition = false;
 	startRotate = false;
 
-	moveSpeed = 60.0f;
+	moveSpeed = 120.0f;
 	rotationSpeed = 90.0f;
 
 	// Scene Components
@@ -309,7 +309,7 @@ bool ADoorKeySwing::KeyMovement(float dt)
 			totalRotation += addKeyRotation;
 
 			// Create rotator
-			FRotator newKeyRotation = FRotator(-addKeyRotation, 0, 0);
+			FRotator newKeyRotation = FRotator(0, 0, addKeyRotation);
 
 			// Add rotator to rotation
 			doorKey->AddActorWorldRotation(newKeyRotation);

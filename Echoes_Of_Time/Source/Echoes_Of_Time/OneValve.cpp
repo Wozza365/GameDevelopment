@@ -29,7 +29,7 @@ AOneValve::AOneValve()
 	valve->SetupAttachment(RootComponent);
 
 	// Parse asset
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> ValveAsset(TEXT("/Game/Assets/Valve.Valve"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> ValveAsset(TEXT("/Game/0Dev_Assets/Megan/valve/Valve_Handle.Valve_Handle"));
 
 	if (ValveAsset.Succeeded())
 	{
@@ -74,7 +74,7 @@ void AOneValve::OpenValve(float dt)
 	addRot = dt * rotSpeed;
 	currentRot += addRot;
 	UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
-	FRotator newRot = FRotator(0.0f, 0.0f, addRot);
+	FRotator newRot = FRotator(addRot, 0.0f, 0.0f);
 	valve->AddRelativeRotation(newRot);
 	if (FMath::IsNearlyEqual(maxRot, currentRot, 4.0f)) 
 	{
@@ -88,7 +88,7 @@ void AOneValve::CloseValve(float dt)
 	addRot = -dt * rotSpeed;
 	currentRot += addRot;
 	UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
-	FRotator newRot = FRotator(0.0f, 0.0f, addRot);
+	FRotator newRot = FRotator(addRot, 0.0f, 0.0f);
 	valve->AddRelativeRotation(newRot);
 	if (FMath::IsNearlyEqual(0.0f, currentRot, 4.0f)) 
 	{
