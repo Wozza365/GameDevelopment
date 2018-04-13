@@ -39,6 +39,8 @@ void UValveControl::OnAction()
 {
 	if (CurrentValve != NULL)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Am i hitting here?"));
+
 		if (APuzzle1Variables::GetWaterFlow())
 		{
 			APuzzle1Variables::SetWaterFlow(false);
