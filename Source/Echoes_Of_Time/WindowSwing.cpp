@@ -35,7 +35,7 @@ AWindowSwing::AWindowSwing()
 	lever->SetupAttachment(RootComponent);
 
 	// Parse asset
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> LeverAsset(TEXT("/Game/FirstPersonBP/Blueprints/Room2/lever_placeholder__1_.lever_placeholder__1_"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> LeverAsset(TEXT("/Game/FirstPersonBP/Blueprints/Room2/lever_placeholder.lever_placeholder"));
 
 	if (LeverAsset.Succeeded())
 	{
@@ -98,7 +98,7 @@ void AWindowSwing::Tick(float DeltaTime)
 	}
 }
 
-// Open Door Function
+// Open Window Function
 
 void AWindowSwing::OpenWindow(float dt)
 {
@@ -139,16 +139,14 @@ void AWindowSwing::CloseWindow(float dt)
 	}
 }
 
-// Open Door Function
+// Open Lever Function
 
 void AWindowSwing::OpenLever(float dt)
 {
-	//Get Current Z rotation
 	leverCurrentRotation = lever->RelativeRotation.Pitch;
 
 	addRotation = -dt * 80;
-	//UE_LOG(LogTemp, Warning, TEXT("%f"), windowCurrentRotation);
-	//UE_LOG(LogTemp, Warning, TEXT("MAX: %f"), maxDegree);
+
 	if (FMath::IsNearlyEqual(leverCurrentRotation, -40.0f, 1.5f))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Lever opening finished"));
@@ -167,7 +165,6 @@ void AWindowSwing::OpenLever(float dt)
 
 void AWindowSwing::CloseLever(float dt)
 {
-	//Get Current Z rotation
 	leverCurrentRotation = lever->RelativeRotation.Pitch;
 
 	addRotation = dt * 80;
@@ -192,10 +189,8 @@ void AWindowSwing::ToggleWindow()
 	maxDegree = -65.0f;
 	leverMaxDegree = -40.0f;
 	//UE_LOG(LogTemp, Warning, TEXT("%f"), this->maxDegree); //Debug
-	UE_LOG(LogTemp, Warning, TEXT("Toggle wiundo function started"));
 	if (leverIsClosed)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Lever opening started"));
 		leverOpening = true;
 		leverClosing = false;
 	}
