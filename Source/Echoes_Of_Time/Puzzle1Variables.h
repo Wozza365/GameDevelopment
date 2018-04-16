@@ -13,7 +13,7 @@ UCLASS()
 class ECHOES_OF_TIME_API APuzzle1Variables : public AWorldSettings
 {
 	GENERATED_BODY()
-	
+
 public:
 	static bool bWaterFlow;
 	static bool bLightOnPoint;
@@ -22,9 +22,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Water")
 		static bool GetWaterFlow();
 
+	UFUNCTION(BlueprintCallable, Category = "Puzzle Room 2")
 	static void SetWaterFlow(bool b);
-	static bool GetLightOnPoint();
+
+	UFUNCTION(BlueprintCallable, Category = "Puzzle Room 2")
 	static void SetLightOnPoint(bool b);
-	static bool GetIsPlantInside();
+
+	UFUNCTION(BlueprintCallable, Category = "Puzzle Room 2")
 	static void SetIsPlantInside(bool b);
+
+	static bool GetLightOnPoint();
+	static bool GetIsPlantInside();
 };
