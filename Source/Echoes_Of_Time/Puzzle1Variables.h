@@ -19,7 +19,9 @@ public:
 	static bool bLightOnPoint;
 	static bool bIsPlantInside;
 	
-	static bool GetWaterFlow();
+	UFUNCTION(BlueprintCallable, Category = "Water")
+		static bool GetWaterFlow();
+
 	static void SetWaterFlow(bool b);
 	static bool GetLightOnPoint();
 	static void SetLightOnPoint(bool b);
