@@ -11,7 +11,6 @@ UWindowController::UWindowController()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	currentWindow = NULL;
 	// ...
 }
 
@@ -34,32 +33,15 @@ void UWindowController::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	// ...
 }
 
-void UWindowController::OnOverlapBegin(class AActor* OtherActor) 
+void UWindowController::OnAction(AWindowSwing* windowSwingPointer)
 {
-	currentWindow = Cast<AWindowSwing>(OtherActor);
-	
-}
-
-
-void UWindowController::OnOverlapEnd(AWindowSwing* other)
-{
-	currentWindow = NULL;
-	//if (!currentWindow->IsOverlappingActor(other))
-	//{
-	//	currentWindow = NULL;
-	//	//UE_LOG(LogTemp, Warning, TEXT("OverlapEnd"));
-	//}
-}
-
-void UWindowController::OnAction()
-{
-	if (currentWindow != NULL)
+	if (windowSwingPointer != NULL)
 	{
-		currentWindow->ToggleWindow();
+		windowSwingPointer->ToggleWindow();
 		//Add boolean value settings
-		if (currentWindow->isSolution) 
+		if (windowSwingPointer->isSolution)
 		{
-			if (!currentWindow->isClosed) 
+			if (!windowSwingPointer->isClosed)
 			{
 				APuzzle1Variables::SetLightOnPoint(true);
 				UE_LOG(LogTemp, Warning, TEXT("Window is solution and is open"));

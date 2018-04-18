@@ -24,19 +24,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	// declare overlap begin function
-	UFUNCTION(BlueprintCallable, Category = "Window Controller")
-		void OnOverlapBegin(class AActor* OtherActor);
-
-	// declare overlap end function
-	UFUNCTION(BlueprintCallable, Category = "Window Controller")
-		void OnOverlapEnd(class AWindowSwing* other);
-
 	// Action Key Pressed Event
 	UFUNCTION(BlueprintCallable, Category = "Window Controller")
-		void OnAction();
-	
-	class AWindowSwing * currentWindow;
-	
-
+		void OnAction(class AWindowSwing* windowSwingPointer);
 };

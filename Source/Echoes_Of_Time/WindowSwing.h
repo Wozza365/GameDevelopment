@@ -18,11 +18,9 @@ public:
 	// Pointer to door component
 	UPROPERTY(VisibleAnywhere, Category = "Window Comp")
 		class UStaticMeshComponent* window;
-	// Pointer to Box Component
-	UPROPERTY(VisibleAnywhere, Category = "Box Comps")
-		class UBoxComponent* boxComp;
 
-
+	UPROPERTY(VisibleAnywhere, Category = "Lever Comp")
+		class UStaticMeshComponent* lever;
 
 protected:
 	// Called when the game starts or when spawned
@@ -39,6 +37,12 @@ public:
 	UFUNCTION()
 		void OpenWindow(float dt);
 
+	UFUNCTION()
+		void CloseLever(float dt);
+
+	UFUNCTION()
+		void OpenLever(float dt);
+
 	// Main Logic
 	UFUNCTION()
 		void ToggleWindow();
@@ -48,9 +52,16 @@ public:
 	bool Closing;
 	bool isClosed;
 
+	bool leverOpening;
+	bool leverClosing;
+	bool leverIsClosed;
+
 	float maxDegree;			// Max degree that doors can rotate
 	float addRotation;
 	float windowCurrentRotation;
+
+	float leverCurrentRotation;
+	float leverMaxDegree;
 	
 	UPROPERTY(EditAnywhere)
 		bool isSolution;
