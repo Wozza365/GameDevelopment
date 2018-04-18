@@ -17,12 +17,6 @@ AWindowSwing::AWindowSwing()
 	USceneComponent* DummyRoot = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	RootComponent = DummyRoot;
 
-	// Add window asset as Box component and set it as root component
-	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Comp"));
-	boxComp->InitBoxExtent(FVector(150, 100, 100));
-	boxComp->SetCollisionProfileName("Trigger");
-	boxComp->SetupAttachment(RootComponent);
-
 	window = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Window"));
 	window -> SetupAttachment(RootComponent);
 
@@ -34,6 +28,20 @@ AWindowSwing::AWindowSwing()
 		window->SetStaticMesh(WindowAsset.Object);
 		window->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f)); // set relative location to root
 		window->SetWorldScale3D(FVector(0.75f));
+		window->ComponentTags.Add(FName("Ignore"));
+	}
+
+	lever = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Lever"));
+	lever->SetupAttachment(RootComponent);
+
+	// Parse asset
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> LeverAsset(TEXT("/Game/FirstPersonBP/Blueprints/Room2/lever_placeholder.lever_placeholder"));
+
+	if (LeverAsset.Succeeded())
+	{
+		lever->SetStaticMesh(LeverAsset.Object);
+		lever->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f)); // set relative location to root
+		lever->SetWorldScale3D(FVector(0.5f));
 	}
 
 	//Declare variables
@@ -41,9 +49,16 @@ AWindowSwing::AWindowSwing()
 	Closing = false;
 	isClosed = true;
 
-	float maxDegree = 90.0f;			// Max degree that doors can rotate
+	leverOpening = false;
+	leverClosing = false;
+	leverIsClosed = true;
+
+	float maxDegree = -40.0f;			// Max degree that doors can rotate
 	float addRotation = 0.0f;
 	float windowCurrentRotation = 0.0f;
+
+	float leverCurrentRotation = 0.0f;
+	float leverMaxDegree = -40.0f;
 
 	UPROPERTY(EditAnywhere)
 		bool isSolution = false;
@@ -62,6 +77,16 @@ void AWindowSwing::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (leverOpening)
+	{
+		OpenLever(DeltaTime);
+	}
+
+	if (leverClosing)
+	{
+		CloseLever(DeltaTime);
+	}
+
 	if (Opening)
 	{
 		OpenWindow(DeltaTime);
@@ -73,15 +98,16 @@ void AWindowSwing::Tick(float DeltaTime)
 	}
 }
 
-// Open Door Function
+// Open Window Function
 
 void AWindowSwing::OpenWindow(float dt)
 {
 	//Get Current Z rotation
-	windowCurrentRotation = window->RelativeRotation.Yaw;
+	windowCurrentRotation = window->RelativeRotation.Roll;
 
-	addRotation = dt * 80;
-	//UE_LOG(LogTemp, Warning, TEXT(addRotation));
+	addRotation = -dt * 80;
+	//UE_LOG(LogTemp, Warning, TEXT("%f"), windowCurrentRotation);
+	//UE_LOG(LogTemp, Warning, TEXT("MAX: %f"), maxDegree);
 	if (FMath::IsNearlyEqual(windowCurrentRotation, maxDegree, 1.5f))
 	{
 		Opening = false;
@@ -89,7 +115,7 @@ void AWindowSwing::OpenWindow(float dt)
 	}
 	else if (Opening)
 	{
-		FRotator newRotation = FRotator(0.0f, addRotation, 0.0f);
+		FRotator newRotation = FRotator(0.0f, 0.0f, addRotation);
 		window->AddRelativeRotation(FQuat(newRotation), false, 0, ETeleportType::None);
 	}
 }
@@ -97,42 +123,81 @@ void AWindowSwing::OpenWindow(float dt)
 void AWindowSwing::CloseWindow(float dt)
 {
 	//Get Current Z rotation
-	windowCurrentRotation = window->RelativeRotation.Yaw;
+	windowCurrentRotation = window->RelativeRotation.Roll;
+	
+	addRotation = dt * 80;
 
-	
-	addRotation = -dt * 80;
-	
-	
-
-	if (FMath::IsNearlyEqual(windowCurrentRotation, 0.0f, 1.5f))
+	if (FMath::IsNearlyEqual(windowCurrentRotation, -180.0f, 1.5f))
 	{
 		Opening = false;
 		Closing = false;
 	}
 	else if (Closing)
 	{
-		FRotator newRotation = FRotator(0.0f, addRotation, 0.0f);
+		FRotator newRotation = FRotator(0.0f, 0.0f, addRotation);
 		window->AddRelativeRotation(FQuat(newRotation), false, 0, ETeleportType::None);
+	}
+}
+
+// Open Lever Function
+
+void AWindowSwing::OpenLever(float dt)
+{
+	leverCurrentRotation = lever->RelativeRotation.Pitch;
+
+	addRotation = -dt * 80;
+
+	if (FMath::IsNearlyEqual(leverCurrentRotation, -40.0f, 1.5f))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Lever opening finished"));
+		leverIsClosed = false;
+
+		isClosed = false;
+		Closing = false;
+		Opening = true;
+	}
+	else if (leverOpening)
+	{
+		FRotator newRotation = FRotator(addRotation, 0.0f, 0.0f);
+		lever->AddRelativeRotation(FQuat(newRotation), false, 0, ETeleportType::None);
+	}
+}
+
+void AWindowSwing::CloseLever(float dt)
+{
+	leverCurrentRotation = lever->RelativeRotation.Pitch;
+
+	addRotation = dt * 80;
+
+	if (FMath::IsNearlyEqual(leverCurrentRotation, 0.0f, 1.5f))
+	{
+		leverIsClosed = true;
+
+		Opening = false;
+		isClosed = true;
+		Closing = true;
+	}
+	else if (leverClosing)
+	{
+		FRotator newRotation = FRotator(addRotation, 0.0f, 0.0f);
+		lever->AddRelativeRotation(FQuat(newRotation), false, 0, ETeleportType::None);
 	}
 }
 
 void AWindowSwing::ToggleWindow()
 {
-	// Determine which way door should swing
-	maxDegree = 90.0f;
-
+	maxDegree = -65.0f;
+	leverMaxDegree = -40.0f;
 	//UE_LOG(LogTemp, Warning, TEXT("%f"), this->maxDegree); //Debug
-	if (isClosed)
+	if (leverIsClosed)
 	{
-		isClosed = false;
-		Closing = false;
-		Opening = true;
+		leverOpening = true;
+		leverClosing = false;
 	}
 	else
 	{
-		Opening = false;
-		isClosed = true;
-		Closing = true;
+		leverOpening = false;
+		leverClosing = true;
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("ToggleWindow")); //Debug
 }
