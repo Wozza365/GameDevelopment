@@ -149,7 +149,6 @@ void AWindowSwing::OpenLever(float dt)
 
 	if (FMath::IsNearlyEqual(leverCurrentRotation, -40.0f, 1.5f))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Lever opening finished"));
 		leverIsClosed = false;
 
 		isClosed = false;
@@ -186,7 +185,7 @@ void AWindowSwing::CloseLever(float dt)
 
 void AWindowSwing::ToggleWindow()
 {
-	maxDegree = -65.0f;
+	maxDegree = 100.0f;
 	leverMaxDegree = -40.0f;
 	//UE_LOG(LogTemp, Warning, TEXT("%f"), this->maxDegree); //Debug
 	if (leverIsClosed)
@@ -201,5 +200,3 @@ void AWindowSwing::ToggleWindow()
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("ToggleWindow")); //Debug
 }
-
-
