@@ -13,7 +13,7 @@ APlant::APlant()
 	plant = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Plant"));
 	plant->SetupAttachment(RootComponent);
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> PlantAsset(TEXT("/Game/0Dev_Assets/Jason/Tree/Tree_Low_Poly.Tree_Low_Poly"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> PlantAsset(TEXT("/Game/FirstPersonBP/Blueprints/Room2/Sapling_Seed.Sapling_Seed"));
 
 	if (PlantAsset.Succeeded())
 	{
