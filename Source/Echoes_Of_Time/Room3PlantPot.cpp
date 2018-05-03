@@ -110,6 +110,7 @@ void ARoom3PlantPot::Tick(float DeltaTime)
 		APuzzleFinalVariables::GetIsPlantInside())|| (APuzzleFinalVariables::GetWaterFlow2() &&
 			APuzzleFinalVariables::GetIsPlantInside()))
 	{
+
 		// Make wall visible and enable collisions
 		wall->SetHiddenInGame(false);
 		wall->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);

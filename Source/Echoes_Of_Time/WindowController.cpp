@@ -41,7 +41,7 @@ void UWindowController::OnAction(AWindowSwing* windowSwingPointer)
 		//Add boolean value settings
 		if (windowSwingPointer->isSolution)
 		{
-			if (!windowSwingPointer->isClosed)
+			if (windowSwingPointer->isClosed)
 			{
 				APuzzle1Variables::SetLightOnPoint(true);
 				UE_LOG(LogTemp, Warning, TEXT("Window is solution and is open"));
