@@ -17,6 +17,10 @@
 		{
 			"Name": "ActorSequenceEditor",
 			"Enabled": true
+		},
+		{
+			"Name": "ApexDestruction",
+			"Enabled": true
 		}
 	]
 }
