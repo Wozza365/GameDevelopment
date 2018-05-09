@@ -32,7 +32,7 @@ public:
 	UFUNCTION()
 		void OpenValve(float dt);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = "Valve")
 		void ToggleValve();
 
 	UFUNCTION()
