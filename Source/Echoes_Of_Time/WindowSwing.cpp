@@ -13,7 +13,7 @@ AWindowSwing::AWindowSwing()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//Default root component needed for C++ classes
+	//Default root component
 	USceneComponent* DummyRoot = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	RootComponent = DummyRoot;
 
@@ -35,13 +35,28 @@ AWindowSwing::AWindowSwing()
 	lever->SetupAttachment(RootComponent);
 
 	// Parse asset
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> LeverAsset(TEXT("/Game/FirstPersonBP/Blueprints/Room2/lever_placeholder.lever_placeholder"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> LeverAsset(TEXT("/Game/0Dev_Assets/Megan/lever/lever_handle.lever_handle"));
 
 	if (LeverAsset.Succeeded())
 	{
 		lever->SetStaticMesh(LeverAsset.Object);
 		lever->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f)); // set relative location to root
 		lever->SetWorldScale3D(FVector(0.5f));
+	}
+
+	// Add lever base
+
+	leverBase = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeverBase"));
+	leverBase->SetupAttachment(RootComponent);
+
+	// Parse asset
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> LeverBaseAsset(TEXT("/Game/0Dev_Assets/Megan/lever/lever_base.lever_base"));
+
+	if (LeverBaseAsset.Succeeded())
+	{
+		leverBase->SetStaticMesh(LeverBaseAsset.Object);
+		leverBase->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f)); // set relative location to root
+		leverBase->SetWorldScale3D(FVector(0.8f));
 	}
 
 	//Declare variables
@@ -53,12 +68,12 @@ AWindowSwing::AWindowSwing()
 	leverClosing = false;
 	leverIsClosed = true;
 
-	float maxDegree = -40.0f;			// Max degree that doors can rotate
+	float maxDegree = 100.0f;			// Max degree that doors can rotate
 	float addRotation = 0.0f;
 	float windowCurrentRotation = 0.0f;
 
-	float leverCurrentRotation = 0.0f;
-	float leverMaxDegree = -40.0f;
+	float leverCurrentRotation = -50.0f;
+	float leverMaxDegree = 50.0f;
 
 	UPROPERTY(EditAnywhere)
 		bool isSolution = false;
@@ -108,7 +123,7 @@ void AWindowSwing::OpenWindow(float dt)
 	addRotation = -dt * 80;
 	//UE_LOG(LogTemp, Warning, TEXT("%f"), windowCurrentRotation);
 	//UE_LOG(LogTemp, Warning, TEXT("MAX: %f"), maxDegree);
-	if (FMath::IsNearlyEqual(windowCurrentRotation, maxDegree, 1.5f))
+	if (FMath::IsNearlyEqual(windowCurrentRotation, -100.0f, 1.5f))
 	{
 		Opening = false;
 		Closing = false;
@@ -145,9 +160,9 @@ void AWindowSwing::OpenLever(float dt)
 {
 	leverCurrentRotation = lever->RelativeRotation.Pitch;
 
-	addRotation = -dt * 80;
+	addRotation = dt * 80;
 
-	if (FMath::IsNearlyEqual(leverCurrentRotation, -40.0f, 1.5f))
+	if (FMath::IsNearlyEqual(leverCurrentRotation, 50.0f, 1.5f))
 	{
 		leverIsClosed = false;
 
@@ -166,9 +181,9 @@ void AWindowSwing::CloseLever(float dt)
 {
 	leverCurrentRotation = lever->RelativeRotation.Pitch;
 
-	addRotation = dt * 80;
+	addRotation = -dt * 80;
 
-	if (FMath::IsNearlyEqual(leverCurrentRotation, 0.0f, 1.5f))
+	if (FMath::IsNearlyEqual(leverCurrentRotation, -50.0f, 1.5f))
 	{
 		leverIsClosed = true;
 
@@ -186,7 +201,7 @@ void AWindowSwing::CloseLever(float dt)
 void AWindowSwing::ToggleWindow()
 {
 	maxDegree = 100.0f;
-	leverMaxDegree = -40.0f;
+	//leverMaxDegree = -40.0f;
 	//UE_LOG(LogTemp, Warning, TEXT("%f"), this->maxDegree); //Debug
 	if (leverIsClosed)
 	{
