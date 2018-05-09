@@ -35,6 +35,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Valve")
 		void ToggleValve();
 
+	UPROPERTY(EditAnywhere, Category = "ValveTag")
+		FString ValveTag;
+
 	UFUNCTION()
 		void CloseValve(float dt);
 
