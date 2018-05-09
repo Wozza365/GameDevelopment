@@ -22,6 +22,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Lever Comp")
 		class UStaticMeshComponent* lever;
 
+	UPROPERTY(VisibleAnywhere, Category = "Lever Comp")
+		class UStaticMeshComponent* leverBase;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
