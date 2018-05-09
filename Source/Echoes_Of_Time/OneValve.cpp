@@ -18,13 +18,6 @@ AOneValve::AOneValve()
 	USceneComponent* DummyRoot = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	RootComponent = DummyRoot;
 
-	// Create Triger Box to rotate
-	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Comp"));
-	boxComp->InitBoxExtent(FVector(90.0f, 90.0f, 90.0f));
-	boxComp->SetRelativeLocation(FVector(0.0f, 60.0f, -30.0f)); // set relative location to root
-	boxComp->SetCollisionProfileName("Trigger");
-	boxComp->SetupAttachment(RootComponent);
-
 	valve = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Valve"));
 	valve->SetupAttachment(RootComponent);
 
@@ -73,10 +66,10 @@ void AOneValve::OpenValve(float dt)
 {
 	addRot = dt * rotSpeed;
 	currentRot += addRot;
-	//UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
+	UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
 	FRotator newRot = FRotator(addRot, 0.0f, 0.0f);
 	valve->AddRelativeRotation(newRot);
-	if (FMath::IsNearlyEqual(maxRot, currentRot, 4.0f)) 
+	if (FMath::IsNearlyEqual(maxRot, currentRot, 2.0f)) 
 	{
 		opening = false;
 		closing = false;
@@ -87,10 +80,10 @@ void AOneValve::CloseValve(float dt)
 {
 	addRot = -dt * rotSpeed;
 	currentRot += addRot;
-	//UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
+	UE_LOG(LogTemp, Warning, TEXT("currentRot = %f"), currentRot);
 	FRotator newRot = FRotator(addRot, 0.0f, 0.0f);
 	valve->AddRelativeRotation(newRot);
-	if (FMath::IsNearlyEqual(0.0f, currentRot, 4.0f)) 
+	if (FMath::IsNearlyEqual(0.0f, currentRot, 2.0f)) 
 	{
 		closing = false;
 		opening = false;
@@ -105,7 +98,8 @@ void AOneValve::ToggleValve()
 		opening = true;
 		closing = false;
 	}
-	else {
+	else 
+	{
 		//currentRot -= 1.0f;
 		opening = false;
 		closing = true;

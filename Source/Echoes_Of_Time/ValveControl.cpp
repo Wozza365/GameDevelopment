@@ -37,27 +37,19 @@ void UValveControl::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 
 void UValveControl::OnAction()
 {
-	if (CurrentValve != NULL)
+	if (APuzzle1Variables::GetWaterFlow())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Am i hitting here?"));
-
-		if (APuzzle1Variables::GetWaterFlow())
-		{
-			APuzzle1Variables::SetWaterFlow(false);
-			CurrentValve->ToggleValve();
-			UE_LOG(LogTemp, Warning, TEXT("Water Flow False"));
-		}
-		else
-		{
-			APuzzle1Variables::SetWaterFlow(true);
-			CurrentValve->ToggleValve();
-			UE_LOG(LogTemp, Warning, TEXT("Water Flow True"));
-		}
+		APuzzle1Variables::SetWaterFlow(false);
+		//CurrentValve->ToggleValve();
+		UE_LOG(LogTemp, Warning, TEXT("Water Flow False"));
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Current Valve Null"));
+		APuzzle1Variables::SetWaterFlow(true);
+		//CurrentValve->ToggleValve();
+		UE_LOG(LogTemp, Warning, TEXT("Water Flow True"));
 	}
+
 }
 
 void UValveControl::OverlapBegin(class AActor* OtherActor)
