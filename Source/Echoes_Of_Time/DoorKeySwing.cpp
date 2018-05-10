@@ -140,7 +140,7 @@ void ADoorKeySwing::OpenDoor(float dt)
 
 	addRotation = dt * 80;
 
-	if (FMath::IsNearlyEqual(doorCurrentRotation, maxDegree, 1.5f))
+	if (FMath::IsNearlyEqual(doorCurrentRotation, maxDegree, 5.0f))
 	{
 		Opening = false;
 		Closing = false;
@@ -260,9 +260,9 @@ bool ADoorKeySwing::KeyMovement(float dt)
 			doorKey->AddActorWorldTransform(newTransform);
 			
 			// Check if reached its destination
-			if (FMath::IsNearlyEqual(doorKey->GetActorLocation().X, startPosition.X, 1.0f))
-				if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Y, startPosition.Y, 1.0f))
-					if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Z, startPosition.Z, 1.0f))
+			if (FMath::IsNearlyEqual(doorKey->GetActorLocation().X, startPosition.X, 2.0f))
+				if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Y, startPosition.Y, 2.0f))
+					if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Z, startPosition.Z, 2.0f))
 					{
 						moveToEndPosition = true;
 						moveToStartingPosition = false;
@@ -291,9 +291,9 @@ bool ADoorKeySwing::KeyMovement(float dt)
 			doorKey->AddActorWorldTransform(newTransform);
 
 			// Check if reached its destination
-			if (FMath::IsNearlyEqual(doorKey->GetActorLocation().X, endPosition.X, 1.0f))
-				if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Y, endPosition.Y, 1.0f))
-					if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Z, endPosition.Z, 1.0f))
+			if (FMath::IsNearlyEqual(doorKey->GetActorLocation().X, endPosition.X, 2.0f))
+				if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Y, endPosition.Y, 2.0f))
+					if (FMath::IsNearlyEqual(doorKey->GetActorLocation().Z, endPosition.Z, 2.0f))
 					{
 						moveToEndPosition = false;
 						startRotate = true;
@@ -314,7 +314,7 @@ bool ADoorKeySwing::KeyMovement(float dt)
 			// Add rotator to rotation
 			doorKey->AddActorWorldRotation(newKeyRotation);
 
-			if (FMath::IsNearlyEqual(totalRotation, 360.0f, 1.0f))
+			if (FMath::IsNearlyEqual(totalRotation, 360.0f, 5.0f))
 			{
 				startRotate = false;
 				return true;
